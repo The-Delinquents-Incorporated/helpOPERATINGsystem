@@ -90,6 +90,22 @@ HelpOS Rev2/
 
 ---
 
+## 0.2: Variance Release Notes
+
+HelpOS 0.2 (codename **Variance**) focuses on a more polished, responsive, and accessible frontend surface:
+
+- The app shell now visibly identifies the running release as **0.2: Variance** in both the sidebar and top bar.
+- Navigation and utility tabs include stronger accessibility semantics for keyboard and assistive technology users.
+- The health endpoint reports release metadata so frontend and API consumers can confirm the deployed version.
+
+### Migration Checklist
+
+- Restart the FastAPI server after pulling the release so `/api/health` reflects `0.2.0`.
+- Hard-refresh the browser if old CSS is cached.
+- Confirm the local Ollama model is still available with `ollama pull llama3.2:3b`.
+
+---
+
 ## Configuration
 
 A default `.env` is included at the project root. You can also create `backend/.env` to override those defaults. HelpOS is local-only by default: the selected model must be installed in the local Ollama daemon.

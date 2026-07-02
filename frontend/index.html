@@ -27,6 +27,7 @@
       <div>
         <div class="sidebar-title">HelpOS</div>
         <div class="sidebar-subtitle">Local AI Engine</div>
+        <div class="version-badge" aria-label="Current release 0.2 Variance">0.2: Variance</div>
       </div>
     </div>
 
@@ -34,7 +35,7 @@
     <div class="nav-group">
       <div class="nav-group-label">Core</div>
 
-      <div class="nav-item active" data-panel="chat" id="nav-chat" role="button" tabindex="0" aria-label="Chat">
+      <div class="nav-item active" data-panel="chat" id="nav-chat" role="button" tabindex="0" aria-label="Chat" aria-current="page">
         <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
           <path stroke-linecap="round" stroke-linejoin="round"
             d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
@@ -106,6 +107,7 @@
     <!-- Top bar -->
     <header id="topbar">
       <span class="topbar-title" id="topbar-title">Chat</span>
+      <span class="topbar-version" aria-label="HelpOS version 0.2 Variance">0.2: Variance</span>
       <span class="topbar-subtitle" id="topbar-subtitle">Dual-mode AI — Reasoning &amp; Deterministic</span>
     </header>
 
@@ -264,15 +266,15 @@
         </div>
 
         <!-- Tabs -->
-        <div class="tabs" id="utils-tabs">
-          <button class="tab-btn active" data-tab="json">JSON</button>
-          <button class="tab-btn" data-tab="base64">Base64</button>
-          <button class="tab-btn" data-tab="regex">Regex</button>
-          <button class="tab-btn" data-tab="timestamp">Timestamp</button>
+        <div class="tabs" id="utils-tabs" role="tablist" aria-label="Utility tools">
+          <button class="tab-btn active" data-tab="json" role="tab" aria-selected="true" aria-controls="tab-json" id="tab-btn-json">JSON</button>
+          <button class="tab-btn" data-tab="base64" role="tab" aria-selected="false" aria-controls="tab-base64" id="tab-btn-base64">Base64</button>
+          <button class="tab-btn" data-tab="regex" role="tab" aria-selected="false" aria-controls="tab-regex" id="tab-btn-regex">Regex</button>
+          <button class="tab-btn" data-tab="timestamp" role="tab" aria-selected="false" aria-controls="tab-timestamp" id="tab-btn-timestamp">Timestamp</button>
         </div>
 
         <!-- JSON tab -->
-        <div class="tab-pane active" id="tab-json">
+        <div class="tab-pane active" id="tab-json" role="tabpanel" aria-labelledby="tab-btn-json">
           <div class="utils-split">
             <div class="field-group flex flex-col gap-2">
               <label class="field-label" for="json-input">Input JSON</label>
@@ -292,7 +294,7 @@
         </div>
 
         <!-- Base64 tab -->
-        <div class="tab-pane" id="tab-base64">
+        <div class="tab-pane" id="tab-base64" role="tabpanel" aria-labelledby="tab-btn-base64" hidden>
           <div class="utils-split">
             <div class="field-group flex flex-col gap-2">
               <label class="field-label" for="b64-input">Text / Base64</label>
@@ -311,7 +313,7 @@
         </div>
 
         <!-- Regex tab -->
-        <div class="tab-pane" id="tab-regex">
+        <div class="tab-pane" id="tab-regex" role="tabpanel" aria-labelledby="tab-btn-regex" hidden>
           <div class="flex flex-col gap-3">
             <div class="utils-split">
               <div class="field-group">
@@ -332,7 +334,7 @@
         </div>
 
         <!-- Timestamp tab -->
-        <div class="tab-pane" id="tab-timestamp">
+        <div class="tab-pane" id="tab-timestamp" role="tabpanel" aria-labelledby="tab-btn-timestamp" hidden>
           <div class="flex flex-col gap-3" style="max-width: 560px;">
             <div class="field-group">
               <label class="field-label" for="ts-input">Unix Timestamp</label>
