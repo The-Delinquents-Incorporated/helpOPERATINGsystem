@@ -3,10 +3,22 @@ from typing import AsyncGenerator, Dict, List, Any, Optional
 import httpx
 from backend.app.config import settings
 
+LOCAL_MODEL_ERROR = (
+    "HelpOS is configured for local-only AI. The selected Ollama model must be "
+    "installed locally and listed by /api/tags. Run `ollama pull {model}` or set "
+    "OLLAMA_MODEL in .env to one of the locally installed model names."
+)
+
 class OllamaService:
-    def __init__(self, host: str = settings.OLLAMA_HOST, default_model: str = settings.OLLAMA_MODEL):
+    def __init__(
+        self,
+        host: str = settings.OLLAMA_HOST,
+        default_model: str = settings.OLLAMA_MODEL,
+        require_local_model: bool = settings.OLLAMA_REQUIRE_LOCAL_MODEL,
+    ):
         self.host = host.rstrip("/")
         self.default_model = default_model
+        self.require_local_model = require_local_model
 
     async def check_health(self) -> bool:
         """
@@ -34,27 +46,42 @@ class OllamaService:
             return []
 
     async def resolve_model(self, requested_model: Optional[str] = None) -> str:
-        """Return an available local model, honoring explicit .env/request overrides first."""
+        """Resolve a model name without ever falling through to Ollama cloud.
+
+        Ollama can proxy some non-local model names and return subscription errors.
+        HelpOS is offline-first, so by default we only allow names returned from
+        the local daemon's /api/tags endpoint.
+        """
         preferred = (requested_model or self.default_model or "").strip()
         models = await self.list_local_models()
         names = [m.get("name") or m.get("model") for m in models]
         names = [name for name in names if name]
 
         if not names:
-            return preferred or "llama3"
+            if self.require_local_model:
+                model_hint = preferred or self.default_model or "llama3.2:3b"
+                raise RuntimeError(LOCAL_MODEL_ERROR.format(model=model_hint))
+            return preferred or self.default_model
 
-        if preferred in names:
-            return preferred
+        candidates = [preferred]
+        if preferred and ":" not in preferred:
+            candidates.append(f"{preferred}:latest")
+        candidates.extend(
+            name for name in names
+            if preferred and name.split(":", 1)[0] == preferred.split(":", 1)[0]
+        )
 
-        preferred_latest = f"{preferred}:latest" if preferred and ":" not in preferred else preferred
-        if preferred_latest in names:
-            return preferred_latest
+        for candidate in candidates:
+            if candidate in names:
+                return candidate
 
-        short_matches = [name for name in names if preferred and name.split(":", 1)[0] == preferred.split(":", 1)[0]]
-        if short_matches:
-            return short_matches[0]
+        if self.require_local_model:
+            raise RuntimeError(
+                f"{LOCAL_MODEL_ERROR.format(model=preferred or self.default_model)} "
+                f"Available local models: {', '.join(names)}"
+            )
 
-        return names[0]
+        return preferred or names[0]
 
     async def generate_chat_completion(
         self, 

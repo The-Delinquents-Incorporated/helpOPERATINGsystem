@@ -15,7 +15,8 @@ class Settings(BaseSettings):
 
     # Ollama Settings
     OLLAMA_HOST: str = "http://localhost:11434"
-    OLLAMA_MODEL: str = "llama3"
+    OLLAMA_MODEL: str = "llama3.2:3b"
+    OLLAMA_REQUIRE_LOCAL_MODEL: bool = True
 
     # CORS Settings
     ALLOWED_ORIGINS: list[str] = ["*"]

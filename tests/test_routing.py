@@ -163,3 +163,27 @@ async def test_coordinator_route_stream_deterministic():
         assert output_chunks[0]["mode"] == "deterministic"
         assert output_chunks[0]["tool"] == "molar_mass"
         assert output_chunks[0]["result"]["molar_mass"] == 18.02
+
+@pytest.mark.asyncio
+async def test_ollama_resolve_model_requires_local_model():
+    from backend.app.services.ollama import OllamaService
+
+    service = OllamaService(default_model="cloud-only-model", require_local_model=True)
+    with patch.object(service, "list_local_models", new_callable=AsyncMock) as mock_models:
+        mock_models.return_value = [{"name": "llama3.2:3b"}]
+
+        with pytest.raises(RuntimeError) as exc:
+            await service.resolve_model()
+
+        assert "local-only AI" in str(exc.value)
+        assert "llama3.2:3b" in str(exc.value)
+
+@pytest.mark.asyncio
+async def test_ollama_resolve_model_accepts_local_latest_alias():
+    from backend.app.services.ollama import OllamaService
+
+    service = OllamaService(default_model="llama3", require_local_model=True)
+    with patch.object(service, "list_local_models", new_callable=AsyncMock) as mock_models:
+        mock_models.return_value = [{"name": "llama3:latest"}]
+
+        assert await service.resolve_model() == "llama3:latest"

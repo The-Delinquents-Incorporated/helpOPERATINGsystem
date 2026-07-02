@@ -91,11 +91,19 @@ HelpOS Rev2/
 
 ## Configuration
 
-Create a `.env` file in `backend/` to override defaults:
+A default `.env` is included at the project root. You can also create `backend/.env` to override those defaults. HelpOS is local-only by default: the selected model must be installed in the local Ollama daemon and visible from `ollama list` / `/api/tags`.
 
 ```env
 OLLAMA_HOST=http://localhost:11434
-OLLAMA_MODEL=llama3
+OLLAMA_MODEL=llama3.2:3b
+OLLAMA_REQUIRE_LOCAL_MODEL=true
+ALLOWED_ORIGINS=["*"]
+```
+
+Install the default local model with:
+
+```bash
+ollama pull llama3.2:3b
 ```
 
 ---
