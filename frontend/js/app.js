@@ -24,9 +24,15 @@ function navigateTo(panelKey) {
   if (target) target.classList.add('active');
 
   // Update nav items
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => {
+    n.classList.remove('active');
+    n.removeAttribute('aria-current');
+  });
   const navItem = document.getElementById(`nav-${panelKey}`);
-  if (navItem) navItem.classList.add('active');
+  if (navItem) {
+    navItem.classList.add('active');
+    navItem.setAttribute('aria-current', 'page');
+  }
 
   // Update topbar
   const meta = PANEL_META[panelKey];
