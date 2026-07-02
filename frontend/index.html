@@ -9,10 +9,9 @@
   <!-- Design system -->
   <link rel="stylesheet" href="/css/app.css" />
 
-  <!-- Marked.js for markdown rendering (CDN, used offline after first load) -->
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
 
   <!-- App modules -->
+  <script src="/js/study.js" defer></script>
   <script src="/js/utilities.js" defer></script>
   <script src="/js/chemistry.js" defer></script>
   <script src="/js/chat.js" defer></script>
@@ -83,6 +82,13 @@
             d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"/>
         </svg>
         Study Tools
+      </div>
+
+      <div class="nav-item" data-panel="documents" id="nav-documents" role="button" tabindex="0" aria-label="Document Tools">
+        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M7 3h6l4 4v14H7a2 2 0 01-2-2V5a2 2 0 012-2zm6 0v5h5M8 13h8M8 17h6"/>
+        </svg>
+        Documents
       </div>
     </div>
 
@@ -347,13 +353,41 @@
       <section class="panel" id="panel-study" aria-label="Study Tools">
         <div class="panel-header">
           <h1>Study Tools</h1>
-          <p>Flashcards, AI tutoring, Pomodoro timer, and Markdown notes.</p>
+          <p>Flashcards, Pomodoro focus, and Markdown notes that stay on this device.</p>
         </div>
-        <div class="coming-soon">
-          <div class="coming-soon-icon">📚</div>
-          <h3>Coming in Phase 7</h3>
-          <p>Flashcards, AI-powered tutoring sessions, Markdown notes, and a Pomodoro study timer will be built here.</p>
+        <div class="study-grid">
+          <div class="card"><div class="card-body">
+            <h2 class="card-title">Flashcards</h2>
+            <div class="field-group"><label class="field-label" for="flash-front">Front</label><input id="flash-front" type="text" placeholder="Question or term" /></div>
+            <div class="field-group"><label class="field-label" for="flash-back">Back</label><textarea id="flash-back" rows="3" placeholder="Answer or explanation"></textarea></div>
+            <button class="btn btn-primary" id="flash-add-btn">Add card</button>
+            <div id="flashcard-stage" class="study-stage empty-state">No cards yet. Add one to start reviewing.</div>
+          </div></div>
+          <div class="card"><div class="card-body">
+            <h2 class="card-title">Pomodoro</h2>
+            <div class="timer-face" id="timer-face">25:00</div>
+            <div class="flex gap-2"><button class="btn btn-primary" id="timer-start-btn">Start</button><button class="btn btn-ghost" id="timer-reset-btn">Reset</button></div>
+            <p class="text-muted mt-3">25 minutes focus · 5 minutes break.</p>
+          </div></div>
+          <div class="card notes-card"><div class="card-body">
+            <h2 class="card-title">Markdown Notes</h2>
+            <textarea id="notes-input" rows="10" placeholder="# Today I learned…"></textarea>
+            <div class="flex gap-2 mt-2"><button class="btn btn-primary btn-sm" id="notes-save-btn">Save locally</button><button class="btn btn-ghost btn-sm" id="notes-clear-btn">Clear</button></div>
+            <div class="notes-preview" id="notes-preview" aria-live="polite"></div>
+          </div></div>
         </div>
+      </section>
+
+      <section class="panel" id="panel-documents" aria-label="Document Tools">
+        <div class="panel-header">
+          <h1>Document Tools</h1>
+          <p>Paste local text to summarize or extract study prompts without network calls.</p>
+        </div>
+        <div class="card"><div class="card-body">
+          <div class="field-group"><label class="field-label" for="doc-input">Document text</label><textarea id="doc-input" rows="12" placeholder="Paste PDF text, notes, or article content here…"></textarea></div>
+          <div class="flex gap-2"><button class="btn btn-primary" id="doc-summary-btn">Summarize</button><button class="btn btn-ghost" id="doc-questions-btn">Make study questions</button></div>
+          <div id="doc-output" class="result-card empty-state">Results appear here after you add text.</div>
+        </div></div>
       </section>
 
     </div><!-- /panels -->

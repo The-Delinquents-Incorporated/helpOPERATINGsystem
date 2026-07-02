@@ -46,6 +46,7 @@ async def health_check():
             "connected": ollama_ok,
             "host": settings.OLLAMA_HOST,
             "configured_model": settings.OLLAMA_MODEL,
+            "local_only": settings.OLLAMA_REQUIRE_LOCAL_MODEL,
             "available_models": available_models
         }
     }

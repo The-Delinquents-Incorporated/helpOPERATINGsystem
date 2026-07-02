@@ -9,7 +9,8 @@ const PANEL_META = {
   chemistry: { title: 'Chemistry',     subtitle: 'Exact calculations from the CDE periodic table' },
   math:      { title: 'Math Solver',   subtitle: 'Deterministic expression evaluation' },
   utilities: { title: 'Utilities',     subtitle: 'Local client-side tools — no API calls' },
-  study:     { title: 'Study Tools',   subtitle: 'Flashcards, AI tutoring & Pomodoro — Phase 7' },
+  study:     { title: 'Study Tools',   subtitle: 'Flashcards, notes & Pomodoro' },
+  documents: { title: 'Documents',     subtitle: 'Local summarization and study prompts' },
 };
 
 // ── Panel Router ──────────────────────────────────────────
@@ -56,8 +57,8 @@ function wireKeyboardShortcuts() {
     const tag = document.activeElement?.tagName;
     if (tag === 'INPUT' || tag === 'TEXTAREA') return;
 
-    // Number keys 1-5 switch panels
-    const panelOrder = ['chat', 'chemistry', 'math', 'utilities', 'study'];
+    // Number keys 1-6 switch panels
+    const panelOrder = ['chat', 'chemistry', 'math', 'utilities', 'study', 'documents'];
     const num = parseInt(e.key, 10);
     if (num >= 1 && num <= panelOrder.length) {
       navigateTo(panelOrder[num - 1]);
