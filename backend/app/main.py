@@ -42,6 +42,11 @@ async def health_check():
     return {
         "status": "healthy",
         "api_version": settings.API_VERSION,
+        "release": {
+            "version": settings.API_VERSION,
+            "label": "0.2: Variance",
+            "codename": settings.RELEASE_CODENAME,
+        },
         "ollama": {
             "connected": ollama_ok,
             "host": settings.OLLAMA_HOST,

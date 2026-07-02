@@ -15,11 +15,22 @@ document.addEventListener('DOMContentLoaded', () => {
     btn.addEventListener('click', () => {
       const target = btn.dataset.tab;
 
-      tabBtns.forEach(b => b.classList.remove('active'));
-      tabPanes.forEach(p => p.classList.remove('active'));
+      tabBtns.forEach(b => {
+        b.classList.remove('active');
+        b.setAttribute('aria-selected', 'false');
+      });
+      tabPanes.forEach(p => {
+        p.classList.remove('active');
+        p.hidden = true;
+      });
 
       btn.classList.add('active');
-      document.getElementById(`tab-${target}`)?.classList.add('active');
+      btn.setAttribute('aria-selected', 'true');
+      const pane = document.getElementById(`tab-${target}`);
+      if (pane) {
+        pane.classList.add('active');
+        pane.hidden = false;
+      }
     });
   });
 
