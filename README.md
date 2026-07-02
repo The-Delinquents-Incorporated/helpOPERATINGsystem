@@ -27,9 +27,9 @@ Then open **http://localhost:8000** in your browser.
 |---|---|---|
 | Python | 3.9+ | Already on macOS |
 | Ollama | Latest | [ollama.com/download](https://ollama.com/download) |
-| A local model | Any | `ollama pull llama3` recommended |
+| A local model | llama3.2:3b (REQUIRED) | You MUST pull this model from Ollama |
 
-### Install Ollama + a model
+### Install Ollama + the required model
 
 ```bash
 # Install Ollama (macOS)
@@ -38,8 +38,9 @@ brew install ollama
 # Start the Ollama daemon
 ollama serve
 
-# Pull a model (in a second terminal)
-ollama pull llama3
+# IMPORTANT: You MUST pull the required model before starting HelpOS
+# Run this exact command:
+ollama pull llama3.2:3b
 ```
 
 ---
@@ -91,7 +92,7 @@ HelpOS Rev2/
 
 ## Configuration
 
-A default `.env` is included at the project root. You can also create `backend/.env` to override those defaults. HelpOS is local-only by default: the selected model must be installed in the local Ollama daemon and visible from `ollama list` / `/api/tags`.
+A default `.env` is included at the project root. You can also create `backend/.env` to override those defaults. HelpOS is local-only by default: the selected model must be installed in the local Ollama daemon.
 
 ```env
 OLLAMA_HOST=http://localhost:11434
@@ -100,11 +101,13 @@ OLLAMA_REQUIRE_LOCAL_MODEL=true
 ALLOWED_ORIGINS=["*"]
 ```
 
-Install the default local model with:
+Install the required local model with:
 
 ```bash
 ollama pull llama3.2:3b
 ```
+
+This model is required — HelpOS expects llama3.2:3b to be available locally when OLLAMA_REQUIRE_LOCAL_MODEL is true.
 
 ---
 
