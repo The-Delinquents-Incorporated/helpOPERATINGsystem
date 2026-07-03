@@ -1,4 +1,4 @@
-/** HelpOS Study.js — local flashcards, notes, pomodoro, document helpers. */
+/** HelpOS Study.js — local flashcards, notes, pomodoro, and AI docs. */
 document.addEventListener('DOMContentLoaded', () => {
   const cards = JSON.parse(localStorage.getItem('helpos.flashcards') || '[]');
   let cardIndex = 0;
@@ -26,7 +26,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const notes = document.getElementById('notes-input');
   const preview = document.getElementById('notes-preview');
-  function renderNotes() { if (preview) preview.innerHTML = notes?.value.trim() ? renderMarkdownSafe(notes.value) : '<span class="text-muted">Markdown preview appears here.</span>'; }
+  function renderNotes() {
+    if (!preview) return;
+    preview.innerHTML = notes?.value.trim()
+      ? renderMarkdown(notes.value)
+      : '<span class="text-muted">Markdown preview appears here.</span>';
+    wireCopyCodeButtons(preview);
+  }
   if (notes) { notes.value = localStorage.getItem('helpos.notes') || ''; notes.addEventListener('input', renderNotes); renderNotes(); }
   document.getElementById('notes-save-btn')?.addEventListener('click', () => localStorage.setItem('helpos.notes', notes.value));
   document.getElementById('notes-clear-btn')?.addEventListener('click', () => { notes.value = ''; localStorage.removeItem('helpos.notes'); renderNotes(); });
@@ -43,19 +49,58 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const docInput = document.getElementById('doc-input');
   const docOutput = document.getElementById('doc-output');
-  function sentences(text) { return text.replace(/\s+/g, ' ').match(/[^.!?]+[.!?]+/g) || []; }
-  document.getElementById('doc-summary-btn')?.addEventListener('click', () => {
-    const text = docInput.value.trim();
-    if (!text) { docOutput.textContent = 'Paste document text first.'; return; }
-    const summary = sentences(text).slice(0, 5).join(' ') || text.slice(0, 700);
-    docOutput.innerHTML = `<div class="result-label">Extractive summary</div><p>${escapeHtml(summary)}</p>`;
-  });
-  document.getElementById('doc-questions-btn')?.addEventListener('click', () => {
-    const words = [...new Set((docInput.value.match(/\b[A-Z][a-zA-Z]{4,}\b/g) || []).slice(0, 6))];
-    const qs = (words.length ? words : ['main idea', 'evidence', 'conclusion']).map(w => `<li>What should you remember about ${escapeHtml(w)}?</li>`).join('');
-    docOutput.innerHTML = `<div class="result-label">Study questions</div><ol>${qs}</ol>`;
-  });
-});
+  const summaryBtn = document.getElementById('doc-summary-btn');
+  const questionsBtn = document.getElementById('doc-questions-btn');
 
-function escapeHtml(str) { return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
-function renderMarkdownSafe(text) { return typeof marked !== 'undefined' ? marked.parse(text, { breaks: true }) : escapeHtml(text).replace(/\n/g, '<br>'); }
+  async function runDocAction(action) {
+    const text = docInput?.value.trim();
+    if (!text) {
+      docOutput.className = 'result-card empty-state';
+      docOutput.textContent = 'Paste document text first.';
+      return;
+    }
+
+    const activeBtn = action === 'summary' ? summaryBtn : questionsBtn;
+    const otherBtn = action === 'summary' ? questionsBtn : summaryBtn;
+    activeBtn.disabled = true;
+    otherBtn.disabled = true;
+    activeBtn.textContent = action === 'summary' ? 'Summarizing…' : 'Generating…';
+    docOutput.className = 'result-card markdown-output';
+    docOutput.innerHTML = '<div style="color:var(--text-muted); font-size:13px;">Working with local AI…</div>';
+
+    try {
+      const res = await fetch('/api/docs', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: action === 'summary' ? 'summary' : 'questions',
+          text,
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        docOutput.innerHTML = `<p style="color:var(--accent-red);">⚠ ${escapeHtml(data.detail || 'Request failed.')}</p>`;
+        return;
+      }
+
+      if (data.mode === 'reasoning') {
+        docOutput.innerHTML = renderMarkdown(data.content || '');
+        wireCopyCodeButtons(docOutput);
+      } else if (data.mode === 'error') {
+        docOutput.innerHTML = `<p style="color:var(--accent-red);">⚠ ${escapeHtml(data.detail || 'An error occurred.')}</p>`;
+      } else {
+        docOutput.innerHTML = `<p style="color:var(--accent-red);">⚠ Unexpected response from AI.</p>`;
+      }
+    } catch (err) {
+      docOutput.innerHTML = `<p style="color:var(--accent-red);">⚠ Network error: ${escapeHtml(err.message)}</p>`;
+    } finally {
+      activeBtn.disabled = false;
+      otherBtn.disabled = false;
+      activeBtn.textContent = action === 'summary' ? 'Summarize' : 'Make study questions';
+    }
+  }
+
+  summaryBtn?.addEventListener('click', () => runDocAction('summary'));
+  questionsBtn?.addEventListener('click', () => runDocAction('questions'));
+});

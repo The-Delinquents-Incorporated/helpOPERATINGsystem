@@ -10,7 +10,7 @@ const PANEL_META = {
   math:      { title: 'Math Solver',   subtitle: 'Deterministic expression evaluation' },
   utilities: { title: 'Utilities',     subtitle: 'Local client-side tools — no API calls' },
   study:     { title: 'Study Tools',   subtitle: 'Flashcards, notes & Pomodoro' },
-  documents: { title: 'Documents',     subtitle: 'Local summarization and study prompts' },
+  documents: { title: 'Docs',          subtitle: 'AI summarization and study questions' },
 };
 
 // ── Panel Router ──────────────────────────────────────────
@@ -64,7 +64,7 @@ function wireKeyboardShortcuts() {
     if (tag === 'INPUT' || tag === 'TEXTAREA') return;
 
     // Number keys 1-6 switch panels
-    const panelOrder = ['chat', 'chemistry', 'math', 'utilities', 'study', 'documents'];
+    const panelOrder = ['chat', 'chemistry', 'math', 'study', 'documents', 'utilities'];
     const num = parseInt(e.key, 10);
     if (num >= 1 && num <= panelOrder.length) {
       navigateTo(panelOrder[num - 1]);

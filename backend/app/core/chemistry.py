@@ -1,14 +1,18 @@
+import re
 from collections import defaultdict
 from typing import Any, Dict
 
 from backend.app.core.periodic_table import get_element
 
 _SUBSCRIPT_TRANSLATION = str.maketrans("₀₁₂₃₄₅₆₇₈₉", "0123456789")
+_UNDERSCORE_SUBSCRIPT = re.compile(r"_(\d+)")
 
 
 def normalize_formula(formula: str) -> str:
     """Normalize display-friendly formula text into parser-friendly notation."""
-    return (formula or "").strip().replace(" ", "").replace("_", "").translate(_SUBSCRIPT_TRANSLATION)
+    clean = (formula or "").strip().replace(" ", "")
+    clean = _UNDERSCORE_SUBSCRIPT.sub(r"\1", clean)
+    return clean.translate(_SUBSCRIPT_TRANSLATION)
 
 
 def parse_formula(formula: str) -> Dict[str, int]:

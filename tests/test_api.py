@@ -86,3 +86,107 @@ def test_chat_completion_unreachable_ollama(client: TestClient):
         response = client.post("/api/chat", json=payload)
         assert response.status_code == 503
         assert "unreachable" in response.json()["detail"]
+
+def test_chemistry_calculate_molar_mass(client: TestClient):
+    response = client.post("/api/chemistry/calculate", json={
+        "tool": "molar_mass",
+        "formula": "H2O",
+    })
+    assert response.status_code == 200
+    data = response.json()
+    assert data["mode"] == "deterministic"
+    assert data["tool"] == "molar_mass"
+    assert data["result"]["molar_mass"] == 18.02
+
+def test_chemistry_calculate_underscore_formula(client: TestClient):
+    response = client.post("/api/chemistry/calculate", json={
+        "tool": "molar_mass",
+        "formula": "H_2O",
+    })
+    assert response.status_code == 200
+    assert response.json()["result"]["molar_mass"] == 18.02
+
+def test_chemistry_calculate_convert_grams_moles(client: TestClient):
+    response = client.post("/api/chemistry/calculate", json={
+        "tool": "convert_grams_moles",
+        "formula": "H2O",
+        "value": 36.04,
+        "direction": "grams_to_moles",
+    })
+    assert response.status_code == 200
+    assert response.json()["result"]["result"] == 2.0
+
+def test_chemistry_calculate_invalid_formula(client: TestClient):
+    response = client.post("/api/chemistry/calculate", json={
+        "tool": "molar_mass",
+        "formula": "Xx",
+    })
+    assert response.status_code == 400
+
+def test_docs_summary_success(client: TestClient):
+    mock_response = {
+        "model": "llama3",
+        "message": {
+            "role": "assistant",
+            "content": "## Summary\n\nPhotosynthesis converts light energy into chemical energy.",
+        },
+        "done": True,
+    }
+
+    with patch("backend.app.services.ollama.ollama_service.generate_chat_completion", new_callable=AsyncMock) as mock_chat:
+        mock_chat.return_value = mock_response
+
+        response = client.post("/api/docs", json={
+            "action": "summary",
+            "text": "Photosynthesis is the process plants use to convert sunlight into glucose.",
+        })
+        assert response.status_code == 200
+        data = response.json()
+        assert data["mode"] == "reasoning"
+        assert data["action"] == "summary"
+        assert "Photosynthesis" in data["content"]
+
+        messages = mock_chat.call_args.kwargs["messages"]
+        assert messages[0]["role"] == "system"
+        assert "summary" in messages[0]["content"].lower()
+        assert "Photosynthesis" in messages[1]["content"]
+
+def test_docs_questions_success(client: TestClient):
+    mock_response = {
+        "model": "llama3",
+        "message": {
+            "role": "assistant",
+            "content": "1. What is photosynthesis?\n2. Why do plants need sunlight?",
+        },
+        "done": True,
+    }
+
+    with patch("backend.app.services.ollama.ollama_service.generate_chat_completion", new_callable=AsyncMock) as mock_chat:
+        mock_chat.return_value = mock_response
+
+        response = client.post("/api/docs", json={
+            "action": "questions",
+            "text": "Photosynthesis converts light into chemical energy in plants.",
+        })
+        assert response.status_code == 200
+        data = response.json()
+        assert data["action"] == "questions"
+        assert "photosynthesis" in data["content"].lower()
+
+def test_docs_empty_text_rejected(client: TestClient):
+    response = client.post("/api/docs", json={
+        "action": "summary",
+        "text": "   ",
+    })
+    assert response.status_code == 400
+
+def test_docs_ollama_unreachable(client: TestClient):
+    with patch("backend.app.services.ollama.ollama_service.generate_chat_completion", new_callable=AsyncMock) as mock_chat:
+        mock_chat.side_effect = RuntimeError("Ollama instance is unreachable")
+
+        response = client.post("/api/docs", json={
+            "action": "summary",
+            "text": "Some document text.",
+        })
+        assert response.status_code == 503
+        assert "unreachable" in response.json()["detail"]
