@@ -187,3 +187,26 @@ async def test_ollama_resolve_model_accepts_local_latest_alias():
         mock_models.return_value = [{"name": "llama3:latest"}]
 
         assert await service.resolve_model() == "llama3:latest"
+
+def test_execute_tool_molar_mass_cast_validation_cases():
+    cases = {
+        "H2O": 18.02,
+        "CO2": 44.01,
+        "NH3": 17.04,
+        "NaCl": 58.44,
+        "Cl": 35.45,
+        "O2": 32.00,
+        "Ca(OH)2": 74.10,
+        "C6H12O6": 180.18,
+        "Ca(OH)_2": 74.10,
+    }
+    for formula, expected in cases.items():
+        result = execute_tool("molar_mass", {"formula": formula})
+        assert result["molar_mass"] == expected
+        assert result["is_mock"] is False
+
+
+def test_execute_tool_math_exponents():
+    result = execute_tool("math_solve", {"expression": "10^-6"})
+    assert result["result"] == 1e-06
+    assert result["is_mock"] is False
