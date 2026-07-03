@@ -90,17 +90,17 @@ HelpOS Rev2/
 
 ---
 
-## 0.2: Variance Release Notes
+## 0.3: Catalyst Release Notes
 
-HelpOS 0.2 (codename **Variance**) focuses on a more polished, responsive, and accessible frontend surface:
+HelpOS 0.3 (codename **Catalyst**) focuses on a more polished, responsive, and accessible frontend surface:
 
-- The app shell now visibly identifies the running release as **0.2: Variance** in both the sidebar and top bar.
+- The app shell now visibly identifies the running release as **0.3: Catalyst** in both the sidebar and top bar.
 - Navigation and utility tabs include stronger accessibility semantics for keyboard and assistive technology users.
 - The health endpoint reports release metadata so frontend and API consumers can confirm the deployed version.
 
 ### Migration Checklist
 
-- Restart the FastAPI server after pulling the release so `/api/health` reflects `0.2.0`.
+- Restart the FastAPI server after pulling the release so `/api/health` reflects `0.3.0`.
 - Hard-refresh the browser if old CSS is cached.
 - Confirm the local Ollama model is still available with `ollama pull llama3.2:3b`.
 

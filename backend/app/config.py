@@ -11,8 +11,8 @@ _BACKEND_DIR = Path(__file__).resolve().parents[1]
 class Settings(BaseSettings):
     # App Settings
     API_TITLE: str = "HelpOS API"
-    API_VERSION: str = "0.2.0"
-    RELEASE_CODENAME: str = "Variance"
+    API_VERSION: str = "0.3.0"
+    RELEASE_CODENAME: str = "Catalyst"
 
     # Ollama Settings
     OLLAMA_HOST: str = "http://localhost:11434"

@@ -7,12 +7,13 @@ def solve_math_expression(expression: str) -> Dict[str, Any]:
     Safely evaluates simple mathematical expressions or returns mock results.
     """
     clean_expr = expression.strip()
+    eval_expr = clean_expr.replace('^', '**')
     
-    # Safe evaluation of basic math symbols only (numbers, +, -, *, /, ., parenthesises)
-    if re.match(r'^[\d\s\+\-\*\/\(\)\.]+$', clean_expr):
+    # Safe evaluation of basic math symbols only (numbers, +, -, *, /, exponents, ., parenthesises)
+    if re.match(r'^[\d\s\+\-\*\/\(\)\.]+$', eval_expr):
         try:
             # Note: eval is safe here because we regex-restricted the input to math characters
-            result = eval(clean_expr, {"__builtins__": None}, {})
+            result = eval(eval_expr, {"__builtins__": None}, {})
             return {
                 "expression": clean_expr,
                 "result": result,

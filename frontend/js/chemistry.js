@@ -22,6 +22,18 @@ const CHEM_TOOL_MAP = {
   particles_to_moles:  { tool: 'avogadro_calculation', needsValue: true,  direction: 'particles_to_moles' },
 };
 
+function formatScientificFormula(input) {
+  const subs = {0:'₀',1:'₁',2:'₂',3:'₃',4:'₄',5:'₅',6:'₆',7:'₇',8:'₈',9:'₉'};
+  return String(input || '')
+    .replace(/_/g, '')
+    .replace(/([A-Za-z\)])(\d+)/g, (_, prefix, digits) => prefix + digits.split('').map(d => subs[d] || d).join(''));
+}
+
+function formatMathExpression(input) {
+  const supers = {'-':'⁻',0:'⁰',1:'¹',2:'²',3:'³',4:'⁴',5:'⁵',6:'⁶',7:'⁷',8:'⁸',9:'⁹'};
+  return String(input || '').replace(/\^(-?\d+)/g, (_, digits) => digits.split('').map(d => supers[d] || d).join(''));
+}
+
 function formatChemNumber(val) {
   if (typeof val !== 'number') return String(val);
   if (Math.abs(val) >= 1e15 || (Math.abs(val) < 1e-3 && val !== 0)) {
@@ -46,12 +58,12 @@ function renderChemResult(data) {
   const displayVal = typeof value === 'number' ? formatChemNumber(value) : String(value);
 
   // Build meta rows from result object
-  const metaSkip = ['result', 'molar_mass', 'unit', 'is_mock'];
+  const metaSkip = ['result', 'molar_mass', 'unit', 'is_mock', 'contributions'];
   const metaItems = Object.entries(result)
     .filter(([k]) => !metaSkip.includes(k))
     .map(([k, v]) => `
       <div class="result-meta-item">
-        ${k.replace(/_/g, ' ')}: <strong>${typeof v === 'number' ? formatChemNumber(v) : v}</strong>
+        ${k.replace(/_/g, ' ')}: <strong>${typeof v === 'number' ? formatChemNumber(v) : (typeof v === 'object' ? JSON.stringify(v) : v)}</strong>
       </div>`)
     .join('');
 
@@ -155,7 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Live formula display
   formulaEl.addEventListener('input', () => {
-    displayEl.textContent = formulaEl.value || '—';
+    displayEl.textContent = formulaEl.value ? formatScientificFormula(formulaEl.value) : '—';
   });
 
   // Calculate button
@@ -207,10 +219,12 @@ document.addEventListener('DOMContentLoaded', () => {
       if (data.mode === 'deterministic' && data.result) {
         const val = data.result.result ?? '—';
         const displayVal = typeof val === 'number' ? formatChemNumber(val) : String(val);
+        const expression = data.result.expression ? `<div class="result-unit">${formatMathExpression(data.result.expression)}</div>` : '';
         mathResArea.innerHTML = `
           <div class="result-card">
             <div class="result-label">Result</div>
             <div class="result-value">${displayVal}</div>
+            ${expression}
             ${data.result.is_mock ? '<div class="result-unit" style="color:var(--accent-amber);">⚠ Approximate (full solver in Phase 2)</div>' : ''}
           </div>`;
       } else if (data.mode === 'reasoning') {

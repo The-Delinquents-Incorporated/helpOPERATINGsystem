@@ -22,12 +22,48 @@ function escapeHtml(str) {
     .replace(/"/g, '&quot;');
 }
 
+function renderInlineMarkdown(text) {
+  return escapeHtml(text)
+    .replace(/`([^`]+)`/g, '<code>$1</code>')
+    .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*([^*]+)\*/g, '<em>$1</em>')
+    .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>')
+    .replace(/([A-Za-z\)])(\d+)/g, (_, prefix, digits) => `${prefix}<sub>${digits}</sub>`)
+    .replace(/\^(-?\d+)/g, (_, digits) => `<sup>${digits}</sup>`);
+}
+
 function renderMarkdown(text) {
   if (typeof marked !== 'undefined') {
     return marked.parse(text, { breaks: true });
   }
-  // Fallback: simple newline → <br>
-  return escapeHtml(text).replace(/\n/g, '<br>');
+
+  const chunks = String(text || '').split(/```([\s\S]*?)```/g);
+  return chunks.map((chunk, index) => {
+    if (index % 2 === 1) {
+      const code = chunk.replace(/^\w+\n/, '');
+      return `<div class="code-block-wrap"><button class="copy-code-btn" type="button">Copy</button><pre><code>${escapeHtml(code.trim())}</code></pre></div>`;
+    }
+
+    const lines = chunk.split(/\n/);
+    let html = '';
+    let inList = false;
+    for (const line of lines) {
+      if (/^#{1,3}\s+/.test(line)) {
+        const level = line.match(/^#+/)[0].length;
+        html += `<h${level}>${renderInlineMarkdown(line.replace(/^#{1,3}\s+/, ''))}</h${level}>`;
+      } else if (/^>\s?/.test(line)) {
+        html += `<blockquote>${renderInlineMarkdown(line.replace(/^>\s?/, ''))}</blockquote>`;
+      } else if (/^[-*]\s+/.test(line)) {
+        if (!inList) { html += '<ul>'; inList = true; }
+        html += `<li>${renderInlineMarkdown(line.replace(/^[-*]\s+/, ''))}</li>`;
+      } else {
+        if (inList) { html += '</ul>'; inList = false; }
+        if (line.trim()) html += `<p>${renderInlineMarkdown(line)}</p>`;
+      }
+    }
+    if (inList) html += '</ul>';
+    return html;
+  }).join('');
 }
 
 function formatNumber(val) {
@@ -92,6 +128,14 @@ function appendMessage(role, contentHtml, extraClass = '') {
     <div class="message-bubble">${contentHtml}</div>`;
 
   msgList.appendChild(wrap);
+  wrap.querySelectorAll('.copy-code-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const code = btn.parentElement.querySelector('code')?.textContent || '';
+      navigator.clipboard?.writeText(code);
+      btn.textContent = 'Copied';
+      setTimeout(() => { btn.textContent = 'Copy'; }, 1200);
+    });
+  });
   scrollToBottom();
   return wrap.querySelector('.message-bubble');
 }
