@@ -144,6 +144,7 @@ def test_docs_summary_success(client: TestClient):
         data = response.json()
         assert data["mode"] == "reasoning"
         assert data["action"] == "summary"
+        assert data["source"] == "helpos-docs"
         assert "Photosynthesis" in data["content"]
 
         messages = mock_chat.call_args.kwargs["messages"]

@@ -53,21 +53,37 @@ function renderMarkdown(text) {
     const lines = chunk.split(/\n/);
     let html = '';
     let inList = false;
+    let listTag = 'ul';
     for (const line of lines) {
       if (/^#{1,3}\s+/.test(line)) {
+        if (inList) { html += `</${listTag}>`; inList = false; }
         const level = line.match(/^#+/)[0].length;
         html += `<h${level}>${renderInlineMarkdown(line.replace(/^#{1,3}\s+/, ''))}</h${level}>`;
       } else if (/^>\s?/.test(line)) {
+        if (inList) { html += `</${listTag}>`; inList = false; }
         html += `<blockquote>${renderInlineMarkdown(line.replace(/^>\s?/, ''))}</blockquote>`;
       } else if (/^[-*]\s+/.test(line)) {
-        if (!inList) { html += '<ul>'; inList = true; }
+        if (!inList || listTag !== 'ul') {
+          if (inList) html += `</${listTag}>`;
+          html += '<ul>';
+          inList = true;
+          listTag = 'ul';
+        }
         html += `<li>${renderInlineMarkdown(line.replace(/^[-*]\s+/, ''))}</li>`;
+      } else if (/^\d+\.\s+/.test(line)) {
+        if (!inList || listTag !== 'ol') {
+          if (inList) html += `</${listTag}>`;
+          html += '<ol>';
+          inList = true;
+          listTag = 'ol';
+        }
+        html += `<li>${renderInlineMarkdown(line.replace(/^\d+\.\s+/, ''))}</li>`;
       } else {
-        if (inList) { html += '</ul>'; inList = false; }
+        if (inList) { html += `</${listTag}>`; inList = false; }
         if (line.trim()) html += `<p>${renderInlineMarkdown(line)}</p>`;
       }
     }
-    if (inList) html += '</ul>';
+    if (inList) html += `</${listTag}>`;
     return html;
   }).join('');
 }

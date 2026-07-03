@@ -1,4 +1,4 @@
-/** HelpOS Study.js — local flashcards, notes, pomodoro, and AI docs. */
+/** HelpOS Study.js — local flashcards, notes, and pomodoro. */
 document.addEventListener('DOMContentLoaded', () => {
   const cards = JSON.parse(localStorage.getItem('helpos.flashcards') || '[]');
   let cardIndex = 0;
@@ -46,61 +46,4 @@ document.addEventListener('DOMContentLoaded', () => {
     interval = setInterval(() => { seconds = Math.max(0, seconds - 1); renderTimer(); if (seconds === 0) { clearInterval(interval); interval = null; e.currentTarget.textContent = 'Start'; } }, 1000);
   });
   document.getElementById('timer-reset-btn')?.addEventListener('click', () => { clearInterval(interval); interval = null; seconds = 25 * 60; document.getElementById('timer-start-btn').textContent = 'Start'; renderTimer(); });
-
-  const docInput = document.getElementById('doc-input');
-  const docOutput = document.getElementById('doc-output');
-  const summaryBtn = document.getElementById('doc-summary-btn');
-  const questionsBtn = document.getElementById('doc-questions-btn');
-
-  async function runDocAction(action) {
-    const text = docInput?.value.trim();
-    if (!text) {
-      docOutput.className = 'result-card empty-state';
-      docOutput.textContent = 'Paste document text first.';
-      return;
-    }
-
-    const activeBtn = action === 'summary' ? summaryBtn : questionsBtn;
-    const otherBtn = action === 'summary' ? questionsBtn : summaryBtn;
-    activeBtn.disabled = true;
-    otherBtn.disabled = true;
-    activeBtn.textContent = action === 'summary' ? 'Summarizing…' : 'Generating…';
-    docOutput.className = 'result-card markdown-output';
-    docOutput.innerHTML = '<div style="color:var(--text-muted); font-size:13px;">Working with local AI…</div>';
-
-    try {
-      const res = await fetch('/api/docs', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          action: action === 'summary' ? 'summary' : 'questions',
-          text,
-        }),
-      });
-
-      const data = await res.json();
-      if (!res.ok) {
-        docOutput.innerHTML = `<p style="color:var(--accent-red);">⚠ ${escapeHtml(data.detail || 'Request failed.')}</p>`;
-        return;
-      }
-
-      if (data.mode === 'reasoning') {
-        docOutput.innerHTML = renderMarkdown(data.content || '');
-        wireCopyCodeButtons(docOutput);
-      } else if (data.mode === 'error') {
-        docOutput.innerHTML = `<p style="color:var(--accent-red);">⚠ ${escapeHtml(data.detail || 'An error occurred.')}</p>`;
-      } else {
-        docOutput.innerHTML = `<p style="color:var(--accent-red);">⚠ Unexpected response from AI.</p>`;
-      }
-    } catch (err) {
-      docOutput.innerHTML = `<p style="color:var(--accent-red);">⚠ Network error: ${escapeHtml(err.message)}</p>`;
-    } finally {
-      activeBtn.disabled = false;
-      otherBtn.disabled = false;
-      activeBtn.textContent = action === 'summary' ? 'Summarize' : 'Make study questions';
-    }
-  }
-
-  summaryBtn?.addEventListener('click', () => runDocAction('summary'));
-  questionsBtn?.addEventListener('click', () => runDocAction('questions'));
 });

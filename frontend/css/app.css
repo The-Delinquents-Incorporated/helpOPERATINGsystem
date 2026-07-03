@@ -1140,3 +1140,30 @@ body { font-size: 16px; }
   text-decoration: underline;
   text-underline-offset: 2px;
 }
+
+.docs-status {
+  margin-bottom: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.docs-status-success {
+  color: var(--accent-cyan);
+}
+
+.docs-error {
+  color: var(--accent-red);
+  margin: 0;
+}
+
+.docs-loading .docs-status {
+  animation: pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 1; }
+}

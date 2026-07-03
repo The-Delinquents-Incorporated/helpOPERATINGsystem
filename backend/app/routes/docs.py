@@ -53,4 +53,5 @@ async def process_document(request: DocsRequest):
         "mode": "reasoning",
         "action": request.action,
         "content": content,
+        "source": "helpos-docs",
     }
