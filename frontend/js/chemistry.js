@@ -22,13 +22,6 @@ const CHEM_TOOL_MAP = {
   particles_to_moles:  { tool: 'avogadro_calculation', needsValue: true,  direction: 'particles_to_moles' },
 };
 
-function formatScientificFormula(input) {
-  const subs = {0:'₀',1:'₁',2:'₂',3:'₃',4:'₄',5:'₅',6:'₆',7:'₇',8:'₈',9:'₉'};
-  return String(input || '')
-    .replace(/_/g, '')
-    .replace(/([A-Za-z\)])(\d+)/g, (_, prefix, digits) => prefix + digits.split('').map(d => subs[d] || d).join(''));
-}
-
 function formatMathExpression(input) {
   const supers = {'-':'⁻',0:'⁰',1:'¹',2:'²',3:'³',4:'⁴',5:'⁵',6:'⁶',7:'⁷',8:'⁸',9:'⁹'};
   return String(input || '').replace(/\^(-?\d+)/g, (_, digits) => digits.split('').map(d => supers[d] || d).join(''));
@@ -57,7 +50,6 @@ function renderChemResult(data) {
   const unit   = result.unit || '';
   const displayVal = typeof value === 'number' ? formatChemNumber(value) : String(value);
 
-  // Build meta rows from result object
   const metaSkip = ['result', 'molar_mass', 'unit', 'is_mock', 'contributions'];
   const metaItems = Object.entries(result)
     .filter(([k]) => !metaSkip.includes(k))
@@ -89,7 +81,6 @@ async function runChemCalculation() {
   const mapping = CHEM_TOOL_MAP[calcType];
   if (!mapping) return;
 
-  // Validate
   if (!formula) {
     errEl.textContent = 'Please enter a chemical formula.';
     errEl.style.display = 'block';
@@ -105,12 +96,12 @@ async function runChemCalculation() {
     }
   }
 
-  // Build messages for coordinator
-  let userMsg = '';
-  if (mapping.tool === 'molar_mass') {
-    userMsg = `Calculate the molar mass of ${formula}.`;
-  } else if (mapping.direction) {
-    userMsg = `${calcType.replace(/_/g, ' ')} for ${formula} with value ${valueEl.value}.`;
+  const payload = { tool: mapping.tool, formula };
+  if (mapping.needsValue) {
+    payload.value = parseFloat(valueEl.value);
+  }
+  if (mapping.direction) {
+    payload.direction = mapping.direction;
   }
 
   btn.disabled = true;
@@ -118,16 +109,17 @@ async function runChemCalculation() {
   area.innerHTML = '<div style="color:var(--text-muted); font-size:13px;">Computing…</div>';
 
   try {
-    const res = await fetch('/api/chat', {
+    const res = await fetch('/api/chemistry/calculate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        messages: [{ role: 'user', content: userMsg }],
-        stream: false
-      })
+      body: JSON.stringify(payload),
     });
 
     const data = await res.json();
+    if (!res.ok) {
+      renderChemResult({ mode: 'error', detail: data.detail || 'Calculation failed.' });
+      return;
+    }
     renderChemResult(data);
   } catch (err) {
     document.getElementById('chem-result-area').innerHTML =
@@ -147,10 +139,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const valueGroup  = document.getElementById('chem-value-group');
   const valueLabel  = document.getElementById('chem-value-label');
   const formulaEl   = document.getElementById('chem-formula');
-  const displayEl   = document.getElementById('chem-formula-display');
   const calcBtn     = document.getElementById('chem-calculate-btn');
 
-  // Show/hide value field based on calc type
   function updateValueVisibility() {
     const type = calcTypeEl.value;
     const mapping = CHEM_TOOL_MAP[type];
@@ -165,20 +155,12 @@ document.addEventListener('DOMContentLoaded', () => {
   calcTypeEl.addEventListener('change', updateValueVisibility);
   updateValueVisibility();
 
-  // Live formula display
-  formulaEl.addEventListener('input', () => {
-    displayEl.textContent = formulaEl.value ? formatScientificFormula(formulaEl.value) : '—';
-  });
-
-  // Calculate button
   calcBtn.addEventListener('click', runChemCalculation);
 
-  // Enter key on formula input
   formulaEl.addEventListener('keydown', e => {
     if (e.key === 'Enter') runChemCalculation();
   });
 
-  // Math solver suggestion chips
   document.querySelectorAll('.suggestion-chip[data-expr]').forEach(chip => {
     chip.addEventListener('click', () => {
       const exprEl = document.getElementById('math-expression');
@@ -189,7 +171,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Math solve button
   const mathSolveBtn = document.getElementById('math-solve-btn');
   const mathExprEl   = document.getElementById('math-expression');
   const mathErrEl    = document.getElementById('math-error');

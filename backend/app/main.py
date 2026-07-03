@@ -1,10 +1,10 @@
 import os
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from backend.app.config import settings
-from backend.app.routes import elements, chat
+from backend.app.routes import elements, chat, chemistry, docs
 from backend.app.services.ollama import ollama_service
 
 app = FastAPI(
@@ -22,9 +22,20 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
+@app.middleware("http")
+async def disable_js_css_cache(request: Request, call_next):
+    response = await call_next(request)
+    path = request.url.path
+    if path.startswith("/js/") or path.startswith("/css/"):
+        response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    return response
+
 # Include API routes
 app.include_router(elements.router)
 app.include_router(chat.router)
+app.include_router(chemistry.router)
+app.include_router(docs.router)
 
 @app.get("/api/health")
 async def health_check():

@@ -10,12 +10,14 @@
   <link rel="stylesheet" href="/css/app.css" />
 
 
-  <!-- App modules -->
-  <script src="/js/study.js" defer></script>
-  <script src="/js/utilities.js" defer></script>
-  <script src="/js/chemistry.js" defer></script>
-  <script src="/js/chat.js" defer></script>
-  <script src="/js/app.js" defer></script>
+  <!-- App modules (v=0.3-rev1.2 cache bust) -->
+  <script src="/js/markdown.js?v=0.3-rev1.2" defer></script>
+  <script src="/js/docs.js?v=0.3-rev1.2" defer></script>
+  <script src="/js/study.js?v=0.3-rev1.2" defer></script>
+  <script src="/js/utilities.js?v=0.3-rev1.2" defer></script>
+  <script src="/js/chemistry.js?v=0.3-rev1.2" defer></script>
+  <script src="/js/chat.js?v=0.3-rev1.2" defer></script>
+  <script src="/js/app.js?v=0.3-rev1.2" defer></script>
 </head>
 <body>
 <div id="app">
@@ -31,9 +33,9 @@
       </div>
     </div>
 
-    <!-- Core -->
+    <!-- AI -->
     <div class="nav-group">
-      <div class="nav-group-label">Core</div>
+      <div class="nav-group-label">AI</div>
 
       <div class="nav-item active" data-panel="chat" id="nav-chat" role="button" tabindex="0" aria-label="Chat" aria-current="page">
         <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
@@ -44,9 +46,9 @@
       </div>
     </div>
 
-    <!-- Science -->
+    <!-- Academic -->
     <div class="nav-group">
-      <div class="nav-group-label">Science</div>
+      <div class="nav-group-label">Academic</div>
 
       <div class="nav-item" data-panel="chemistry" id="nav-chemistry" role="button" tabindex="0" aria-label="Chemistry">
         <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
@@ -63,19 +65,6 @@
         </svg>
         Math Solver
       </div>
-    </div>
-
-    <!-- Tools -->
-    <div class="nav-group">
-      <div class="nav-group-label">Tools</div>
-
-      <div class="nav-item" data-panel="utilities" id="nav-utilities" role="button" tabindex="0" aria-label="Utilities">
-        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
-          <path stroke-linecap="round" stroke-linejoin="round"
-            d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L3 3.5l1 1.5h1.5l3.695 4.408-.744.563"/>
-        </svg>
-        Utilities
-      </div>
 
       <div class="nav-item" data-panel="study" id="nav-study" role="button" tabindex="0" aria-label="Study Tools">
         <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
@@ -85,11 +74,24 @@
         Study Tools
       </div>
 
-      <div class="nav-item" data-panel="documents" id="nav-documents" role="button" tabindex="0" aria-label="Document Tools">
+      <div class="nav-item" data-panel="documents" id="nav-documents" role="button" tabindex="0" aria-label="Docs">
         <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
           <path stroke-linecap="round" stroke-linejoin="round" d="M7 3h6l4 4v14H7a2 2 0 01-2-2V5a2 2 0 012-2zm6 0v5h5M8 13h8M8 17h6"/>
         </svg>
-        Documents
+        Docs
+      </div>
+    </div>
+
+    <!-- Dev -->
+    <div class="nav-group">
+      <div class="nav-group-label">Dev</div>
+
+      <div class="nav-item" data-panel="utilities" id="nav-utilities" role="button" tabindex="0" aria-label="Utilities">
+        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L3 3.5l1 1.5h1.5l3.695 4.408-.744.563"/>
+        </svg>
+        Utilities
       </div>
     </div>
 
@@ -173,8 +175,9 @@
 
               <div class="field-group">
                 <label class="field-label" for="chem-formula">Chemical Formula</label>
-                <input type="text" id="chem-formula" placeholder="e.g. H2O, CO2, NaCl, C6H12O6" autocomplete="off" spellcheck="false" />
-                <div class="formula-display mt-2" id="chem-formula-display">—</div>
+                <div class="formula-input-wrap">
+                  <input type="text" id="chem-formula" placeholder="e.g. H2O, H_2O, CO2, NaCl, C6H12O6" autocomplete="off" spellcheck="false" />
+                </div>
               </div>
 
               <div class="field-group">
@@ -380,15 +383,15 @@
         </div>
       </section>
 
-      <section class="panel" id="panel-documents" aria-label="Document Tools">
+      <section class="panel" id="panel-documents" aria-label="Docs">
         <div class="panel-header">
-          <h1>Document Tools</h1>
-          <p>Paste local text to summarize or extract study prompts without network calls.</p>
+          <h1>Docs</h1>
+          <p>Paste local text and use AI to summarize or generate study questions.</p>
         </div>
         <div class="card"><div class="card-body">
           <div class="field-group"><label class="field-label" for="doc-input">Document text</label><textarea id="doc-input" rows="12" placeholder="Paste PDF text, notes, or article content here…"></textarea></div>
           <div class="flex gap-2"><button class="btn btn-primary" id="doc-summary-btn">Summarize</button><button class="btn btn-ghost" id="doc-questions-btn">Make study questions</button></div>
-          <div id="doc-output" class="result-card empty-state">Results appear here after you add text.</div>
+          <div id="doc-output" class="result-card markdown-output empty-state">Results appear here after you add text.</div>
         </div></div>
       </section>
 
