@@ -11,6 +11,26 @@ function escapeHtml(str) {
     .replace(/"/g, '&quot;');
 }
 
+/** Render LaTeX-style chemistry notation as compact Unicode text. */
+function renderChemFormula(text) {
+  const subscripts = { 0: '₀', 1: '₁', 2: '₂', 3: '₃', 4: '₄', 5: '₅', 6: '₆', 7: '₇', 8: '₈', 9: '₉' };
+  const superscripts = {
+    0: '⁰', 1: '¹', 2: '²', 3: '³', 4: '⁴',
+    5: '⁵', 6: '⁶', 7: '⁷', 8: '⁸', 9: '⁹',
+    '+': '⁺', '-': '⁻'
+  };
+  const convert = (value, table) => [...value].map(char => table[char] || char).join('');
+
+  const formatted = String(text ?? '')
+    .replace(/\s+/g, '')
+    .replace(/\^\{([^}]+)\}/g, (_, value) => convert(value, superscripts))
+    .replace(/\^(\d*[+-])/g, (_, value) => convert(value, superscripts))
+    .replace(/_\{(\d+)\}/g, (_, value) => convert(value, subscripts))
+    .replace(/_(\d+)/g, (_, value) => convert(value, subscripts));
+
+  return escapeHtml(formatted);
+}
+
 function renderInlineMarkdown(text) {
   const underlineBlocks = [];
   let processed = String(text || '').replace(/<u>([\s\S]*?)<\/u>/gi, (_, inner) => {

@@ -1141,6 +1141,17 @@ body { font-size: 16px; }
   text-underline-offset: 2px;
 }
 
+/* ── Version 0.4.0.5: chemistry formula sub/superscripts ── */
+.kb-card sub,
+.kb-card sup,
+.explanation-box sub,
+.explanation-box sup,
+.suggestion-chip sub,
+.suggestion-chip sup {
+  font-size: 0.72em;
+  line-height: 0;
+}
+
 .docs-status {
   margin-bottom: 12px;
   font-size: 12px;

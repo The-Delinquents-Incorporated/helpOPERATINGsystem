@@ -1,51 +1,51 @@
 [
   {
-    "formula": "NH4+",
+    "formula": "NH_4^{+}",
     "name": "Ammonium",
     "charge": 1
   },
   {
-    "formula": "OH-",
+    "formula": "OH^{-}",
     "name": "Hydroxide",
     "charge": -1
   },
   {
-    "formula": "NO3-",
+    "formula": "NO_3^{-}",
     "name": "Nitrate",
     "charge": -1
   },
   {
-    "formula": "SO4-2",
+    "formula": "SO_4^{2-}",
     "name": "Sulfate",
     "charge": -2
   },
   {
-    "formula": "CO3-2",
+    "formula": "CO_3^{2-}",
     "name": "Carbonate",
     "charge": -2
   },
   {
-    "formula": "PO4-3",
+    "formula": "PO_4^{3-}",
     "name": "Phosphate",
     "charge": -3
   },
   {
-    "formula": "CN-",
+    "formula": "CN^{-}",
     "name": "Cyanide",
     "charge": -1
   },
   {
-    "formula": "HCO3-",
+    "formula": "HCO_3^{-}",
     "name": "Bicarbonate",
     "charge": -1
   },
   {
-    "formula": "C2H3O2-",
+    "formula": "C_2H_3O_2^{-}",
     "name": "Acetate",
     "charge": -1
   },
   {
-    "formula": "ClO3-",
+    "formula": "ClO_3^{-}",
     "name": "Chlorate",
     "charge": -1
   }

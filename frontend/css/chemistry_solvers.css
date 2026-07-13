@@ -108,23 +108,49 @@ input:checked + .toggle-slider:before {
 .kb-search-bar {
   display: flex;
   gap: 12px;
-  background: var(--bg-card);
+  background: var(--bg-surface);
   border: 1px solid var(--border-strong);
   border-radius: var(--radius-md);
   padding: 8px;
 }
 
-.kb-search-bar input {
-  flex: 1;
-  background: transparent;
-  border: none;
-  padding: 10px 14px;
-  color: var(--text-primary);
-  font-size: 15px;
+#kb-query-input {
+  flex: 1 1 420px;
+  width: 100%;
+  min-width: 240px;
+  min-height: 48px;
+  background: #202030;
+  border: 2px solid rgba(255, 255, 255, 0.28);
+  border-radius: var(--radius-sm);
+  padding: 12px 16px;
+  color: #ffffff;
+  -webkit-text-fill-color: #ffffff;
+  caret-color: #ffffff;
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 1.4;
+  opacity: 1;
 }
 
-.kb-search-bar input:focus {
+#kb-query-input::placeholder {
+  color: rgba(255, 255, 255, 0.68);
+  -webkit-text-fill-color: rgba(255, 255, 255, 0.68);
+  opacity: 1;
+}
+
+#kb-query-input:focus,
+#kb-query-input:focus-visible {
+  background: #252538;
+  border-color: #9b87ff;
+  box-shadow: 0 0 0 3px rgba(124, 92, 252, 0.3);
+  color: #ffffff;
+  -webkit-text-fill-color: #ffffff;
   outline: none;
+}
+
+@media (max-width: 760px) {
+  .kb-search-bar { flex-wrap: wrap; }
+  #kb-query-input { flex-basis: 100%; min-width: 100%; }
 }
 
 .kb-grid {
@@ -134,7 +160,7 @@ input:checked + .toggle-slider:before {
 }
 
 .kb-card {
-  background: var(--bg-card);
+  background: var(--bg-surface);
   border: 1px solid var(--border-strong);
   border-radius: var(--radius-md);
   padding: 16px;
@@ -166,9 +192,28 @@ input:checked + .toggle-slider:before {
   font-weight: 600;
   color: var(--text-primary);
   margin-bottom: 8px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  display: block;
+}
+
+.kb-card-title sub,
+.kb-card-title sup,
+.kb-card-details sub,
+.kb-card-details sup {
+  position: relative;
+  font-size: 0.72em;
+  line-height: 0;
+}
+
+.kb-card-title sub,
+.kb-card-details sub {
+  vertical-align: baseline;
+  bottom: -0.25em;
+}
+
+.kb-card-title sup,
+.kb-card-details sup {
+  vertical-align: baseline;
+  top: -0.5em;
 }
 
 .kb-card-details {

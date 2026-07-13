@@ -8,7 +8,7 @@
     "properties": "White crystalline solid, table salt"
   },
   {
-    "formula": "H2O",
+    "formula": "H_2O",
     "name": "Water",
     "molar_mass": 18.02,
     "state": "Liquid",
@@ -16,7 +16,7 @@
     "properties": "Colorless, odorless liquid, essential for life"
   },
   {
-    "formula": "CO2",
+    "formula": "CO_2",
     "name": "Carbon Dioxide",
     "molar_mass": 44.01,
     "state": "Gas",
@@ -24,7 +24,7 @@
     "properties": "Colorless gas, greenhouse gas"
   },
   {
-    "formula": "H2SO4",
+    "formula": "H_2SO_4",
     "name": "Sulfuric Acid",
     "molar_mass": 98.08,
     "state": "Liquid",
@@ -48,7 +48,7 @@
     "properties": "Strong base, caustic soda, used in soap making"
   },
   {
-    "formula": "CaCO3",
+    "formula": "CaCO_3",
     "name": "Calcium Carbonate",
     "molar_mass": 100.09,
     "state": "Solid",
@@ -56,7 +56,7 @@
     "properties": "White mineral, found in rocks as chalk, limestone, marble"
   },
   {
-    "formula": "NH3",
+    "formula": "NH_3",
     "name": "Ammonia",
     "molar_mass": 17.03,
     "state": "Gas",
@@ -64,7 +64,7 @@
     "properties": "Pungent gas, used in fertilizers and cleaners"
   },
   {
-    "formula": "C6H12O6",
+    "formula": "C_6H_{12}O_6",
     "name": "Glucose",
     "molar_mass": 180.16,
     "state": "Solid",
@@ -72,7 +72,7 @@
     "properties": "Simple sugar, primary energy source for cells"
   },
   {
-    "formula": "Kno3",
+    "formula": "KNO_3",
     "name": "Potassium Nitrate",
     "molar_mass": 101.10,
     "state": "Solid",

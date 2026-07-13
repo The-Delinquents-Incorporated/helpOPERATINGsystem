@@ -17,7 +17,7 @@ function parseCompositionInput(text) {
   return comp;
 }
 
-// ── AI Solvers Handlers ──────────────────────────────────────────
+// ── AI Solvers Handlers ──────────────────────────────────
 
 async function runChemistrySolve() {
   const solverType = document.getElementById('solver-calc-type').value;
@@ -160,20 +160,24 @@ function renderSolverResult(type, data) {
   // Append markdown explanation if it exists
   let explanationHtml = '';
   if (data.show_work && data.explanation) {
-    // If window.markdownService exists, render it beautifully
-    const formattedMarkdown = window.markdownService ? window.markdownService.render(data.explanation) : `<pre style="white-space: pre-wrap;">${data.explanation}</pre>`;
+    // Render with the shared markdown renderer (markdown.js) so headings,
+    // lists, bold, code blocks, and chemistry sub/superscripts all display
+    const formattedMarkdown = typeof renderMarkdown === 'function'
+      ? renderMarkdown(data.explanation)
+      : `<pre style="white-space: pre-wrap;">${escapeHtml(data.explanation)}</pre>`;
     explanationHtml = `
       <div class="explanation-box">
         <div class="explanation-title">Step-by-Step Explanation</div>
-        <div class="markdown-body">${formattedMarkdown}</div>
+        <div class="markdown-output">${formattedMarkdown}</div>
       </div>
     `;
   }
 
   area.innerHTML = resultHtml + explanationHtml;
+  if (typeof wireCopyCodeButtons === 'function') wireCopyCodeButtons(area);
 }
 
-// ── Knowledge Base Handlers ──────────────────────────────────────
+// ── Knowledge Base Handlers ──────────────────────────────
 
 async function runKBSearch() {
   const query = document.getElementById('kb-query-input').value.trim();
@@ -197,7 +201,7 @@ async function runKBSearch() {
         suggestionsBox.innerHTML = `
           <div style="font-size:12px; color:var(--text-muted); margin-bottom: 6px;">Did you mean:</div>
           <div class="suggestions-box">
-            ${data.suggestions.map(s => `<div class="suggestion-chip" onclick="searchKBWithText('${s}')">${s}</div>`).join('')}
+            ${data.suggestions.map(s => `<div class="suggestion-chip" onclick="searchKBWithText('${s}')">${renderChemFormula(s)}</div>`).join('')}
           </div>
         `;
       }
@@ -227,22 +231,22 @@ function renderKBCard(item) {
   } else if (category === 'compounds') {
     title = data.name;
     details = `
-      <div>Formula: <strong>${data.formula}</strong></div>
+      <div>Formula: <strong>${renderChemFormula(data.formula)}</strong></div>
       <div>Molar Mass: <strong>${data.molar_mass} g/mol</strong></div>
       <div>State at STP: <strong>${data.state}</strong></div>
       <div>Solubility: <strong>${data.solubility}</strong></div>
       <div>Properties: <strong>${data.properties}</strong></div>
     `;
   } else if (category === 'polyatomic_ions') {
-    title = `${data.name} (${data.formula})`;
+    title = `${data.name} (${renderChemFormula(data.formula)})`;
     details = `
-      <div>Charge: <strong>${data.charge}</strong></div>
+      <div>Charge: <strong>${data.charge > 0 ? '+' + data.charge : data.charge}</strong></div>
     `;
   } else if (category === 'reaction_types') {
     title = data.type;
     details = `
-      <div>Pattern: <strong>${data.pattern}</strong></div>
-      <div>Example: <strong>${data.example}</strong></div>
+      <div>Pattern: <strong>${renderChemFormula(data.pattern)}</strong></div>
+      <div>Example: <strong>${renderChemFormula(data.example)}</strong></div>
       <div style="margin-top: 6px;"><strong>Tips:</strong></div>
       <ul style="margin: 4px 0 0 16px; padding: 0; font-size:12px;">
         ${data.tips.map(t => `<li>${t}</li>`).join('')}
@@ -259,7 +263,7 @@ function renderKBCard(item) {
   `;
 }
 
-// ── Setup and Wiring ──────────────────────────────────────────
+// ── Setup and Wiring ──────────────────────────────────
 
 document.addEventListener('DOMContentLoaded', () => {
   // Solver calc type visibility toggling

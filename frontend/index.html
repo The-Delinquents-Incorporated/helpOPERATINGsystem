@@ -1,583 +1,622 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>HelpOS — Local AI Utility Engine</title>
-  <meta name="description" content="Privacy-first, offline AI utility engine for scientific computation, tutoring, and productivity. Powered by local Ollama." />
+  <meta name="description"
+    content="Privacy-first, offline AI utility engine for scientific computation, tutoring, and productivity. Powered by local Ollama." />
 
   <!-- Design system -->
-  <link rel="stylesheet" href="/css/app.css" />
-  <link rel="stylesheet" href="/css/chemistry_solvers.css" />
+  <link rel="stylesheet" href="/css/app.css?v=0.4.0.6" />
+  <link rel="stylesheet" href="/css/chemistry_solvers.css?v=0.4.0.6" />
 
 
-  <!-- App modules (v=0.4-rev1.0 cache bust) -->
-  <script src="/js/markdown.js?v=0.4-rev1.0" defer></script>
-  <script src="/js/docs.js?v=0.4-rev1.0" defer></script>
-  <script src="/js/study.js?v=0.4-rev1.0" defer></script>
-  <script src="/js/utilities.js?v=0.4-rev1.0" defer></script>
-  <script src="/js/chemistry.js?v=0.4-rev1.0" defer></script>
-  <script src="/js/chemistry_solvers.js?v=0.4-rev1.0" defer></script>
-  <script src="/js/chat.js?v=0.4-rev1.0" defer></script>
-  <script src="/js/app.js?v=0.4-rev1.0" defer></script>
+  <!-- App modules (v=0.4.0.6 cache bust) -->
+  <script src="/js/markdown.js?v=0.4.0.6" defer></script>
+  <script src="/js/docs.js?v=0.4.0.5" defer></script>
+  <script src="/js/study.js?v=0.4.0.5" defer></script>
+  <script src="/js/utilities.js?v=0.4.0.5" defer></script>
+  <script src="/js/chemistry.js?v=0.4.0.5" defer></script>
+  <script src="/js/chemistry_solvers.js?v=0.4.0.6" defer></script>
+  <script src="/js/chat.js?v=0.4.0.5" defer></script>
+  <script src="/js/app.js?v=0.4.0.5" defer></script>
 </head>
+
 <body>
-<div id="app">
+  <div id="app">
 
-  <!-- ── Sidebar ── -->
-  <nav id="sidebar" role="navigation" aria-label="Main navigation">
-    <div class="sidebar-header">
-      <div class="sidebar-logo" aria-hidden="true">H</div>
-      <div>
-        <div class="sidebar-title">HelpOS</div>
-        <div class="sidebar-subtitle">Local AI Engine</div>
-        <div class="version-badge" aria-label="Current release 0.4 Expansion">0.4: Expansion</div>
-      </div>
-    </div>
-
-    <!-- AI -->
-    <div class="nav-group">
-      <div class="nav-group-label">AI</div>
-
-      <div class="nav-item active" data-panel="chat" id="nav-chat" role="button" tabindex="0" aria-label="Chat" aria-current="page">
-        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
-          <path stroke-linecap="round" stroke-linejoin="round"
-            d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
-        </svg>
-        Chat
-      </div>
-    </div>
-
-    <!-- Academic -->
-    <div class="nav-group">
-      <div class="nav-group-label">Academic</div>
-
-      <div class="nav-item" data-panel="chemistry" id="nav-chemistry" role="button" tabindex="0" aria-label="Chemistry">
-        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
-          <path stroke-linecap="round" stroke-linejoin="round"
-            d="M9 3v7.382a1 1 0 01-.162.543L5.28 16.16A3 3 0 007.83 21h8.34a3 3 0 002.55-4.84l-3.558-5.235A1 1 0 0115 10.382V3M9 3h6M9 3a1 1 0 000 2h6a1 1 0 000-2"/>
-        </svg>
-        Chemistry
+    <!-- ── Sidebar ── -->
+    <nav id="sidebar" role="navigation" aria-label="Main navigation">
+      <div class="sidebar-header">
+        <div class="sidebar-logo" aria-hidden="true">H</div>
+        <div>
+          <div class="sidebar-title">HelpOS</div>
+          <div class="sidebar-subtitle">Local AI Engine</div>
+          <div class="version-badge" aria-label="Current release 0.4 Expansion">0.4: Expansion</div>
+        </div>
       </div>
 
-      <div class="nav-item" data-panel="solvers" id="nav-solvers" role="button" tabindex="0" aria-label="AI Solvers">
-        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0012 18.75c-.307 0-.614-.086-.88-.26l-.547-.548z" />
-        </svg>
-        AI Solvers
+      <!-- AI -->
+      <div class="nav-group">
+        <div class="nav-group-label">AI</div>
+
+        <div class="nav-item active" data-panel="chat" id="nav-chat" role="button" tabindex="0" aria-label="Chat"
+          aria-current="page">
+          <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+          </svg>
+          Chat
+        </div>
       </div>
 
-      <div class="nav-item" data-panel="knowledge_base" id="nav-knowledge_base" role="button" tabindex="0" aria-label="Knowledge Base">
-        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-        </svg>
-        Knowledge Base
+      <!-- Academic -->
+      <div class="nav-group">
+        <div class="nav-group-label">Academic</div>
+
+        <div class="nav-item" data-panel="chemistry" id="nav-chemistry" role="button" tabindex="0"
+          aria-label="Chemistry">
+          <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M9 3v7.382a1 1 0 01-.162.543L5.28 16.16A3 3 0 007.83 21h8.34a3 3 0 002.55-4.84l-3.558-5.235A1 1 0 0115 10.382V3M9 3h6M9 3a1 1 0 000 2h6a1 1 0 000-2" />
+          </svg>
+          Chemistry
+        </div>
+
+        <div class="nav-item" data-panel="solvers" id="nav-solvers" role="button" tabindex="0" aria-label="AI Solvers">
+          <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0012 18.75c-.307 0-.614-.086-.88-.26l-.547-.548z" />
+          </svg>
+          AI Solvers
+        </div>
+
+        <div class="nav-item" data-panel="knowledge_base" id="nav-knowledge_base" role="button" tabindex="0"
+          aria-label="Knowledge Base">
+          <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+          </svg>
+          Knowledge Base
+        </div>
+
+        <div class="nav-item" data-panel="math" id="nav-math" role="button" tabindex="0" aria-label="Math Solver">
+          <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M4.5 12h15m-6.75-6.75L18 12l-5.25 6.75M9 5.25L3.75 12 9 18.75" />
+          </svg>
+          Math Solver
+        </div>
+
+        <div class="nav-item" data-panel="study" id="nav-study" role="button" tabindex="0" aria-label="Study Tools">
+          <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
+          </svg>
+          Study Tools
+        </div>
+
+        <div class="nav-item" data-panel="documents" id="nav-documents" role="button" tabindex="0" aria-label="Docs">
+          <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M7 3h6l4 4v14H7a2 2 0 01-2-2V5a2 2 0 012-2zm6 0v5h5M8 13h8M8 17h6" />
+          </svg>
+          Docs
+        </div>
       </div>
 
-      <div class="nav-item" data-panel="math" id="nav-math" role="button" tabindex="0" aria-label="Math Solver">
-        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
-          <path stroke-linecap="round" stroke-linejoin="round"
-            d="M4.5 12h15m-6.75-6.75L18 12l-5.25 6.75M9 5.25L3.75 12 9 18.75"/>
-        </svg>
-        Math Solver
+      <!-- Dev -->
+      <div class="nav-group">
+        <div class="nav-group-label">Dev</div>
+
+        <div class="nav-item" data-panel="utilities" id="nav-utilities" role="button" tabindex="0"
+          aria-label="Utilities">
+          <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L3 3.5l1 1.5h1.5l3.695 4.408-.744.563" />
+          </svg>
+          Utilities
+        </div>
       </div>
 
-      <div class="nav-item" data-panel="study" id="nav-study" role="button" tabindex="0" aria-label="Study Tools">
-        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
-          <path stroke-linecap="round" stroke-linejoin="round"
-            d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"/>
-        </svg>
-        Study Tools
+      <!-- Footer status -->
+      <div class="sidebar-footer">
+        <div class="status-pill">
+          <div class="status-dot checking" id="status-dot"></div>
+          <span id="status-text">Checking Ollama…</span>
+        </div>
       </div>
+    </nav>
 
-      <div class="nav-item" data-panel="documents" id="nav-documents" role="button" tabindex="0" aria-label="Docs">
-        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M7 3h6l4 4v14H7a2 2 0 01-2-2V5a2 2 0 012-2zm6 0v5h5M8 13h8M8 17h6"/>
-        </svg>
-        Docs
-      </div>
-    </div>
+    <!-- ── Main ── -->
+    <div id="main">
+      <!-- Top bar -->
+      <header id="topbar">
+        <span class="topbar-title" id="topbar-title">Chat</span>
+        <span class="topbar-version" aria-label="HelpOS version 0.4 Expansion">0.4: Expansion</span>
+        <span class="topbar-subtitle" id="topbar-subtitle">Dual-mode AI — Reasoning &amp; Deterministic</span>
+      </header>
 
-    <!-- Dev -->
-    <div class="nav-group">
-      <div class="nav-group-label">Dev</div>
+      <!-- Panel container -->
+      <div id="panels">
 
-      <div class="nav-item" data-panel="utilities" id="nav-utilities" role="button" tabindex="0" aria-label="Utilities">
-        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
-          <path stroke-linecap="round" stroke-linejoin="round"
-            d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L3 3.5l1 1.5h1.5l3.695 4.408-.744.563"/>
-        </svg>
-        Utilities
-      </div>
-    </div>
+        <!-- ╔══════════════════════════╗ -->
+        <!-- ║    CHAT PANEL           ║ -->
+        <!-- ╚══════════════════════════╝ -->
+        <section class="panel active" id="panel-chat" aria-label="Chat">
 
-    <!-- Footer status -->
-    <div class="sidebar-footer">
-      <div class="status-pill">
-        <div class="status-dot checking" id="status-dot"></div>
-        <span id="status-text">Checking Ollama…</span>
-      </div>
-    </div>
-  </nav>
-
-  <!-- ── Main ── -->
-  <div id="main">
-    <!-- Top bar -->
-    <header id="topbar">
-      <span class="topbar-title" id="topbar-title">Chat</span>
-      <span class="topbar-version" aria-label="HelpOS version 0.4 Expansion">0.4: Expansion</span>
-      <span class="topbar-subtitle" id="topbar-subtitle">Dual-mode AI — Reasoning &amp; Deterministic</span>
-    </header>
-
-    <!-- Panel container -->
-    <div id="panels">
-
-      <!-- ╔══════════════════════════╗ -->
-      <!-- ║    CHAT PANEL           ║ -->
-      <!-- ╚══════════════════════════╝ -->
-      <section class="panel active" id="panel-chat" aria-label="Chat">
-
-        <!-- Message list -->
-        <div id="chat-messages">
-          <!-- Empty state shown until first message -->
-          <div class="chat-empty" id="chat-empty">
-            <div class="empty-logo">H</div>
-            <h2>HelpOS Assistant</h2>
-            <p>Ask chemistry questions, solve math problems, or request explanations. Exact calculations are computed locally — never by the AI.</p>
-            <div class="chat-suggestions">
-              <div class="suggestion-chip" data-msg="What is the molar mass of H2O?">Molar mass of H₂O</div>
-              <div class="suggestion-chip" data-msg="Convert 36 grams of H2O to moles.">36g H₂O → moles</div>
-              <div class="suggestion-chip" data-msg="Explain what STP means in chemistry.">Explain STP</div>
-              <div class="suggestion-chip" data-msg="Solve 2 * (3 + 4)">Solve 2×(3+4)</div>
-              <div class="suggestion-chip" data-msg="How many particles are in 2 moles?">2 mol → particles</div>
+          <!-- Message list -->
+          <div id="chat-messages">
+            <!-- Empty state shown until first message -->
+            <div class="chat-empty" id="chat-empty">
+              <div class="empty-logo">H</div>
+              <h2>HelpOS Assistant</h2>
+              <p>Ask chemistry questions, solve math problems, or request explanations. Exact calculations are computed
+                locally — never by the AI.</p>
+              <div class="chat-suggestions">
+                <div class="suggestion-chip" data-msg="What is the molar mass of H2O?">Molar mass of H₂O</div>
+                <div class="suggestion-chip" data-msg="Convert 36 grams of H2O to moles.">36g H₂O → moles</div>
+                <div class="suggestion-chip" data-msg="Explain what STP means in chemistry.">Explain STP</div>
+                <div class="suggestion-chip" data-msg="Solve 2 * (3 + 4)">Solve 2×(3+4)</div>
+                <div class="suggestion-chip" data-msg="How many particles are in 2 moles?">2 mol → particles</div>
+              </div>
             </div>
           </div>
-        </div>
 
-        <!-- Input bar -->
-        <div id="chat-input-bar">
-          <div class="chat-input-wrap">
-            <textarea
-              id="chat-input"
-              placeholder="Ask anything — chemistry, math, science, explanations…"
-              rows="1"
-              aria-label="Chat input"
-              autocomplete="off"
-              spellcheck="true"
-            ></textarea>
-            <button id="chat-send-btn" aria-label="Send message" title="Send (Enter)">
-              <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"/>
-              </svg>
-            </button>
-          </div>
-          <div class="chat-input-hint">↵ Send &nbsp;·&nbsp; Shift+↵ New line &nbsp;·&nbsp; All computation is local</div>
-        </div>
-      </section>
-
-      <!-- ╔══════════════════════════╗ -->
-      <!-- ║   CHEMISTRY PANEL       ║ -->
-      <!-- ╚══════════════════════════╝ -->
-      <section class="panel" id="panel-chemistry" aria-label="Chemistry Calculator">
-        <div class="panel-header">
-          <h1>Chemistry Calculator</h1>
-          <p>Exact deterministic calculations — all values sourced from the California Department of Education (CDE) periodic table.</p>
-        </div>
-
-        <div class="chem-layout">
-          <!-- Left: Inputs -->
-          <div class="card">
-            <div class="card-body chem-input-panel">
-
-              <div class="field-group">
-                <label class="field-label" for="chem-formula">Chemical Formula</label>
-                <div class="formula-input-wrap">
-                  <input type="text" id="chem-formula" placeholder="e.g. H2O, H_2O, CO2, NaCl, C6H12O6" autocomplete="off" spellcheck="false" />
-                </div>
-              </div>
-
-              <div class="field-group">
-                <label class="field-label" for="chem-calc-type">Calculation Type</label>
-                <select id="chem-calc-type">
-                  <option value="molar_mass">Molar Mass</option>
-                  <option value="grams_to_moles">Grams → Moles</option>
-                  <option value="moles_to_grams">Moles → Grams</option>
-                  <option value="liters_to_moles">Liters at STP → Moles</option>
-                  <option value="moles_to_liters">Moles → Liters at STP</option>
-                  <option value="moles_to_particles">Moles → Particles (Avogadro)</option>
-                  <option value="particles_to_moles">Particles → Moles (Avogadro)</option>
-                </select>
-              </div>
-
-              <div class="field-group" id="chem-value-group" style="display:none">
-                <label class="field-label" for="chem-value" id="chem-value-label">Value</label>
-                <input type="number" id="chem-value" placeholder="0" step="any" min="0" />
-              </div>
-
-              <button class="btn btn-primary w-full" id="chem-calculate-btn">
-                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 11h.01M12 11h.01M15 11h.01M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"/>
+          <!-- Input bar -->
+          <div id="chat-input-bar">
+            <div class="chat-input-wrap">
+              <textarea id="chat-input" placeholder="Ask anything — chemistry, math, science, explanations…" rows="1"
+                aria-label="Chat input" autocomplete="off" spellcheck="true"></textarea>
+              <button id="chat-send-btn" aria-label="Send message" title="Send (Enter)">
+                <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
                 </svg>
-                Calculate
               </button>
-
-              <p id="chem-error" class="text-muted mt-2" style="color: var(--accent-red); display:none;"></p>
+            </div>
+            <div class="chat-input-hint">↵ Send &nbsp;·&nbsp; Shift+↵ New line &nbsp;·&nbsp; All computation is local
             </div>
           </div>
+        </section>
 
-          <!-- Right: Result -->
-          <div class="card">
-            <div class="card-body">
-              <div class="field-label">Result</div>
-              <div id="chem-result-area">
-                <div style="color: var(--text-muted); font-size: 13px; padding: 20px 0;">
-                  Enter a formula and click Calculate.
-                </div>
-              </div>
-            </div>
+        <!-- ╔══════════════════════════╗ -->
+        <!-- ║   CHEMISTRY PANEL       ║ -->
+        <!-- ╚══════════════════════════╝ -->
+        <section class="panel" id="panel-chemistry" aria-label="Chemistry Calculator">
+          <div class="panel-header">
+            <h1>Chemistry Calculator</h1>
+            <p>Exact deterministic calculations — all values sourced from the California Department of Education (CDE)
+              periodic table.</p>
           </div>
-        </div>
-      </section>
 
-      <!-- ╔══════════════════════════╗ -->
-      <!-- ║   AI SOLVERS PANEL       ║ -->
-      <!-- ╚══════════════════════════╝ -->
-      <section class="panel" id="panel-solvers" aria-label="AI Solvers">
-        <div class="panel-header">
-          <h1>AI Chemistry Solvers</h1>
-          <p>AI-assisted calculations and step-by-step tutoring explanations powered by Ollama.</p>
-        </div>
-
-        <div class="solver-container">
-          <div class="solver-split">
-            <!-- Left: Config & Inputs -->
+          <div class="chem-layout">
+            <!-- Left: Inputs -->
             <div class="card">
               <div class="card-body chem-input-panel">
-                
+
                 <div class="field-group">
-                  <label class="field-label" for="solver-calc-type">Solver Type</label>
-                  <select id="solver-calc-type">
-                    <option value="stoichiometry">Stoichiometry Solver</option>
-                    <option value="empirical_molecular">Empirical &amp; Molecular Formula</option>
-                    <option value="percent_composition">Percent Composition</option>
-                    <option value="percent_error">Percent Error</option>
+                  <label class="field-label" for="chem-formula">Chemical Formula</label>
+                  <div class="formula-input-wrap">
+                    <input type="text" id="chem-formula" placeholder="e.g. H2O, H_2O, CO2, NaCl, C6H12O6"
+                      autocomplete="off" spellcheck="false" />
+                  </div>
+                </div>
+
+                <div class="field-group">
+                  <label class="field-label" for="chem-calc-type">Calculation Type</label>
+                  <select id="chem-calc-type">
+                    <option value="molar_mass">Molar Mass</option>
+                    <option value="grams_to_moles">Grams → Moles</option>
+                    <option value="moles_to_grams">Moles → Grams</option>
+                    <option value="liters_to_moles">Liters at STP → Moles</option>
+                    <option value="moles_to_liters">Moles → Liters at STP</option>
+                    <option value="moles_to_particles">Moles → Particles (Avogadro)</option>
+                    <option value="particles_to_moles">Particles → Moles (Avogadro)</option>
                   </select>
                 </div>
 
-                <!-- Stoichiometry Fields -->
-                <div id="fields-stoichiometry" class="solver-fields">
-                  <div class="field-group">
-                    <label class="field-label" for="stoich-equation">Chemical Equation</label>
-                    <input type="text" id="stoich-equation" placeholder="e.g. 2H2 + O2 -> 2H2O" />
+                <div class="field-group" id="chem-value-group" style="display:none">
+                  <label class="field-label" for="chem-value" id="chem-value-label">Value</label>
+                  <input type="number" id="chem-value" placeholder="0" step="any" min="0" />
+                </div>
+
+                <button class="btn btn-primary w-full" id="chem-calculate-btn">
+                  <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 11h.01M12 11h.01M15 11h.01M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" />
+                  </svg>
+                  Calculate
+                </button>
+
+                <p id="chem-error" class="text-muted mt-2" style="color: var(--accent-red); display:none;"></p>
+              </div>
+            </div>
+
+            <!-- Right: Result -->
+            <div class="card">
+              <div class="card-body">
+                <div class="field-label">Result</div>
+                <div id="chem-result-area">
+                  <div style="color: var(--text-muted); font-size: 13px; padding: 20px 0;">
+                    Enter a formula and click Calculate.
                   </div>
-                  <div class="form-group-row">
-                    <div class="field-group">
-                      <label class="field-label" for="stoich-given-sub">Given Substance</label>
-                      <input type="text" id="stoich-given-sub" placeholder="e.g. H2" />
-                    </div>
-                    <div class="field-group">
-                      <label class="field-label" for="stoich-given-val">Given Value</label>
-                      <input type="number" id="stoich-given-val" placeholder="e.g. 10" step="any" />
-                    </div>
-                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ╔══════════════════════════╗ -->
+        <!-- ║   AI SOLVERS PANEL       ║ -->
+        <!-- ╚══════════════════════════╝ -->
+        <section class="panel" id="panel-solvers" aria-label="AI Solvers">
+          <div class="panel-header">
+            <h1>AI Chemistry Solvers</h1>
+            <p>AI-assisted calculations and step-by-step tutoring explanations powered by Ollama.</p>
+          </div>
+
+          <div class="solver-container">
+            <div class="solver-split">
+              <!-- Left: Config & Inputs -->
+              <div class="card">
+                <div class="card-body chem-input-panel">
+
                   <div class="field-group">
-                    <label class="field-label" for="stoich-given-unit">Given Unit</label>
-                    <select id="stoich-given-unit">
-                      <option value="grams">Grams (g)</option>
-                      <option value="moles">Moles (mol)</option>
-                      <option value="liters">Liters at STP (L)</option>
-                      <option value="particles">Particles</option>
+                    <label class="field-label" for="solver-calc-type">Solver Type</label>
+                    <select id="solver-calc-type">
+                      <option value="stoichiometry">Stoichiometry Solver</option>
+                      <option value="empirical_molecular">Empirical &amp; Molecular Formula</option>
+                      <option value="percent_composition">Percent Composition</option>
+                      <option value="percent_error">Percent Error</option>
                     </select>
                   </div>
-                  <div class="form-group-row">
+
+                  <!-- Stoichiometry Fields -->
+                  <div id="fields-stoichiometry" class="solver-fields">
                     <div class="field-group">
-                      <label class="field-label" for="stoich-target-sub">Target Substance</label>
-                      <input type="text" id="stoich-target-sub" placeholder="e.g. H2O" />
+                      <label class="field-label" for="stoich-equation">Chemical Equation</label>
+                      <input type="text" id="stoich-equation" placeholder="e.g. 2H2 + O2 -> 2H2O" />
+                    </div>
+                    <div class="form-group-row">
+                      <div class="field-group">
+                        <label class="field-label" for="stoich-given-sub">Given Substance</label>
+                        <input type="text" id="stoich-given-sub" placeholder="e.g. H2" />
+                      </div>
+                      <div class="field-group">
+                        <label class="field-label" for="stoich-given-val">Given Value</label>
+                        <input type="number" id="stoich-given-val" placeholder="e.g. 10" step="any" />
+                      </div>
                     </div>
                     <div class="field-group">
-                      <label class="field-label" for="stoich-target-unit">Target Unit</label>
-                      <select id="stoich-target-unit">
+                      <label class="field-label" for="stoich-given-unit">Given Unit</label>
+                      <select id="stoich-given-unit">
                         <option value="grams">Grams (g)</option>
                         <option value="moles">Moles (mol)</option>
                         <option value="liters">Liters at STP (L)</option>
                         <option value="particles">Particles</option>
                       </select>
                     </div>
-                  </div>
-                </div>
-
-                <!-- Empirical/Molecular Fields -->
-                <div id="fields-empirical_molecular" class="solver-fields" style="display: none;">
-                  <div class="field-group">
-                    <label class="field-label" for="emp-composition">Composition Data</label>
-                    <textarea id="emp-composition" rows="3" placeholder="e.g. C: 40, H: 6.7, O: 53.3"></textarea>
-                  </div>
-                  <div class="field-group">
-                    <label class="field-label" for="emp-molar-mass">Molar Mass (g/mol, optional)</label>
-                    <input type="number" id="emp-molar-mass" placeholder="e.g. 180" step="any" />
-                  </div>
-                </div>
-
-                <!-- Percent Composition Fields -->
-                <div id="fields-percent_composition" class="solver-fields" style="display: none;">
-                  <div class="field-group">
-                    <label class="field-label" for="pct-formula">Chemical Formula</label>
-                    <input type="text" id="pct-formula" placeholder="e.g. H2SO4" />
-                  </div>
-                </div>
-
-                <!-- Percent Error Fields -->
-                <div id="fields-percent_error" class="solver-fields" style="display: none;">
-                  <div class="form-group-row">
-                    <div class="field-group">
-                      <label class="field-label" for="err-theoretical">Theoretical Value</label>
-                      <input type="number" id="err-theoretical" placeholder="e.g. 18.02" step="any" />
-                    </div>
-                    <div class="field-group">
-                      <label class="field-label" for="err-experimental">Experimental Value</label>
-                      <input type="number" id="err-experimental" placeholder="e.g. 17.8" step="any" />
+                    <div class="form-group-row">
+                      <div class="field-group">
+                        <label class="field-label" for="stoich-target-sub">Target Substance</label>
+                        <input type="text" id="stoich-target-sub" placeholder="e.g. H2O" />
+                      </div>
+                      <div class="field-group">
+                        <label class="field-label" for="stoich-target-unit">Target Unit</label>
+                        <select id="stoich-target-unit">
+                          <option value="grams">Grams (g)</option>
+                          <option value="moles">Moles (mol)</option>
+                          <option value="liters">Liters at STP (L)</option>
+                          <option value="particles">Particles</option>
+                        </select>
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                <!-- Show Work Toggle -->
-                <div class="toggle-container">
-                  <div>
-                    <div style="font-weight:600; font-size:13px; color:var(--text-primary);">Show Work</div>
-                    <div style="font-size:11px; color:var(--text-muted);">Explain step-by-step using Ollama</div>
+                  <!-- Empirical/Molecular Fields -->
+                  <div id="fields-empirical_molecular" class="solver-fields" style="display: none;">
+                    <div class="field-group">
+                      <label class="field-label" for="emp-composition">Composition Data</label>
+                      <textarea id="emp-composition" rows="3" placeholder="e.g. C: 40, H: 6.7, O: 53.3"></textarea>
+                    </div>
+                    <div class="field-group">
+                      <label class="field-label" for="emp-molar-mass">Molar Mass (g/mol, optional)</label>
+                      <input type="number" id="emp-molar-mass" placeholder="e.g. 180" step="any" />
+                    </div>
                   </div>
-                  <label class="toggle-switch">
-                    <input type="checkbox" id="solver-show-work" checked>
-                    <span class="toggle-slider"></span>
-                  </label>
-                </div>
 
-                <button class="btn btn-primary w-full" id="solver-calculate-btn">Solve</button>
-                <p id="solver-error" class="text-muted mt-2" style="color: var(--accent-red); display:none;"></p>
+                  <!-- Percent Composition Fields -->
+                  <div id="fields-percent_composition" class="solver-fields" style="display: none;">
+                    <div class="field-group">
+                      <label class="field-label" for="pct-formula">Chemical Formula</label>
+                      <input type="text" id="pct-formula" placeholder="e.g. H2SO4" />
+                    </div>
+                  </div>
+
+                  <!-- Percent Error Fields -->
+                  <div id="fields-percent_error" class="solver-fields" style="display: none;">
+                    <div class="form-group-row">
+                      <div class="field-group">
+                        <label class="field-label" for="err-theoretical">Theoretical Value</label>
+                        <input type="number" id="err-theoretical" placeholder="e.g. 18.02" step="any" />
+                      </div>
+                      <div class="field-group">
+                        <label class="field-label" for="err-experimental">Experimental Value</label>
+                        <input type="number" id="err-experimental" placeholder="e.g. 17.8" step="any" />
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Show Work Toggle -->
+                  <div class="toggle-container">
+                    <div>
+                      <div style="font-weight:600; font-size:13px; color:var(--text-primary);">Show Work (Experimental)
+                      </div>
+                      <div style="font-size:11px; color:var(--text-muted);">Explain step-by-step using Ollama
+                        (experimental)</div>
+                    </div>
+                    <label class="toggle-switch">
+                      <input type="checkbox" id="solver-show-work" checked>
+                      <span class="toggle-slider"></span>
+                    </label>
+                  </div>
+
+                  <button class="btn btn-primary w-full" id="solver-calculate-btn">Solve</button>
+                  <p id="solver-error" class="text-muted mt-2" style="color: var(--accent-red); display:none;"></p>
+                </div>
+              </div>
+
+              <!-- Right: Results -->
+              <div class="card">
+                <div class="card-body">
+                  <div class="field-label">Solution</div>
+                  <div id="solver-result-area">
+                    <div style="color: var(--text-muted); font-size: 13px; padding: 20px 0;">
+                      Select solver options and click Solve to see results.
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
+          </div>
+        </section>
 
-            <!-- Right: Results -->
+        <!-- ╔══════════════════════════╗ -->
+        <!-- ║  KNOWLEDGE BASE PANEL    ║ -->
+        <!-- ╚══════════════════════════╝ -->
+        <section class="panel" id="panel-knowledge_base" aria-label="Knowledge Base">
+          <div class="panel-header">
+            <h1>Offline Chemistry Knowledge Base</h1>
+            <p>Search periodic table, compounds, polyatomic ions, and chemical reaction types offline.</p>
+          </div>
+
+          <div class="kb-container">
+            <div class="kb-search-bar">
+              <input type="text" id="kb-query-input" placeholder="Search by name, symbol, formula, pattern..."
+                autocomplete="off">
+              <select id="kb-category-select"
+                style="background:var(--bg-hover); color:var(--text-primary); border:none; border-radius:var(--radius-sm); padding:4px 10px;">
+                <option value="">All Categories</option>
+                <option value="elements">Elements</option>
+                <option value="compounds">Compounds</option>
+                <option value="polyatomic_ions">Polyatomic Ions</option>
+                <option value="reaction_types">Reaction Types</option>
+              </select>
+              <button class="btn btn-primary" id="kb-search-btn">Search</button>
+            </div>
+
+            <div id="kb-suggestions"></div>
+
+            <div class="kb-grid" id="kb-results-grid">
+              <div style="color: var(--text-muted); padding: 40px; text-align: center; grid-column: 1/-1;">
+                Enter a search query to search offline reference database.
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ╔══════════════════════════╗ -->
+        <!-- ║   MATH PANEL            ║ -->
+        <!-- ╚══════════════════════════╝ -->
+        <section class="panel" id="panel-math" aria-label="Math Solver">
+          <div class="panel-header">
+            <h1>Math Solver</h1>
+            <p>Deterministic expression evaluation. No AI arithmetic — exact Python computation.</p>
+          </div>
+
+          <div class="card" style="max-width: 680px;">
+            <div class="card-body">
+              <div class="field-group">
+                <label class="field-label" for="math-expression">Expression</label>
+                <div class="math-input-row">
+                  <input type="text" id="math-expression" placeholder="e.g. 2 * (3 + 4), 100 / 4.5" autocomplete="off"
+                    spellcheck="false" />
+                  <button class="btn btn-primary shrink-0" id="math-solve-btn">Solve</button>
+                </div>
+              </div>
+
+              <p id="math-error" class="text-muted" style="color: var(--accent-red); display:none; margin-bottom: 8px;">
+              </p>
+
+              <div id="math-result-area"></div>
+            </div>
+          </div>
+
+          <div class="mt-4" style="max-width: 680px;">
+            <div class="field-label" style="margin-bottom: 10px;">Examples</div>
+            <div class="flex gap-2" style="flex-wrap: wrap;">
+              <div class="suggestion-chip" data-expr="2 * (3 + 4)">2 × (3 + 4)</div>
+              <div class="suggestion-chip" data-expr="100 / 4.5">100 ÷ 4.5</div>
+              <div class="suggestion-chip" data-expr="(18.02 * 2) + 32">18.02×2 + 32</div>
+              <div class="suggestion-chip" data-expr="6.02e23 * 2">6.02×10²³ × 2</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ╔══════════════════════════╗ -->
+        <!-- ║   UTILITIES PANEL       ║ -->
+        <!-- ╚══════════════════════════╝ -->
+        <section class="panel" id="panel-utilities" aria-label="Utility Tools">
+          <div class="panel-header">
+            <h1>Utilities</h1>
+            <p>Local client-side tools. No API calls — everything runs in your browser.</p>
+          </div>
+
+          <!-- Tabs -->
+          <div class="tabs" id="utils-tabs" role="tablist" aria-label="Utility tools">
+            <button class="tab-btn active" data-tab="json" role="tab" aria-selected="true" aria-controls="tab-json"
+              id="tab-btn-json">JSON</button>
+            <button class="tab-btn" data-tab="base64" role="tab" aria-selected="false" aria-controls="tab-base64"
+              id="tab-btn-base64">Base64</button>
+            <button class="tab-btn" data-tab="regex" role="tab" aria-selected="false" aria-controls="tab-regex"
+              id="tab-btn-regex">Regex</button>
+            <button class="tab-btn" data-tab="timestamp" role="tab" aria-selected="false" aria-controls="tab-timestamp"
+              id="tab-btn-timestamp">Timestamp</button>
+          </div>
+
+          <!-- JSON tab -->
+          <div class="tab-pane active" id="tab-json" role="tabpanel" aria-labelledby="tab-btn-json">
+            <div class="utils-split">
+              <div class="field-group flex flex-col gap-2">
+                <label class="field-label" for="json-input">Input JSON</label>
+                <textarea id="json-input" rows="12" placeholder='{"key": "value"}'></textarea>
+                <div class="flex gap-2">
+                  <button class="btn btn-primary btn-sm" id="json-format-btn">Format</button>
+                  <button class="btn btn-ghost btn-sm" id="json-minify-btn">Minify</button>
+                  <button class="btn btn-ghost btn-sm" id="json-copy-btn">Copy</button>
+                </div>
+              </div>
+              <div class="field-group flex flex-col gap-2">
+                <label class="field-label">Output</label>
+                <pre id="json-output"
+                  style="flex:1; min-height: 200px; white-space: pre-wrap; word-break: break-all;"></pre>
+                <p id="json-error" style="color: var(--accent-red); font-size: 12px; display:none;"></p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Base64 tab -->
+          <div class="tab-pane" id="tab-base64" role="tabpanel" aria-labelledby="tab-btn-base64" hidden>
+            <div class="utils-split">
+              <div class="field-group flex flex-col gap-2">
+                <label class="field-label" for="b64-input">Text / Base64</label>
+                <textarea id="b64-input" rows="8" placeholder="Enter text to encode, or Base64 to decode…"></textarea>
+                <div class="flex gap-2">
+                  <button class="btn btn-primary btn-sm" id="b64-encode-btn">Encode →</button>
+                  <button class="btn btn-ghost btn-sm" id="b64-decode-btn">← Decode</button>
+                </div>
+              </div>
+              <div class="field-group flex flex-col gap-2">
+                <label class="field-label">Output</label>
+                <pre id="b64-output" style="min-height: 180px; white-space: pre-wrap; word-break: break-all;"></pre>
+                <p id="b64-error" style="color: var(--accent-red); font-size: 12px; display:none;"></p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Regex tab -->
+          <div class="tab-pane" id="tab-regex" role="tabpanel" aria-labelledby="tab-btn-regex" hidden>
+            <div class="flex flex-col gap-3">
+              <div class="utils-split">
+                <div class="field-group">
+                  <label class="field-label" for="regex-pattern">Pattern</label>
+                  <input type="text" id="regex-pattern" placeholder="e.g. \d+" />
+                </div>
+                <div class="field-group">
+                  <label class="field-label" for="regex-flags">Flags</label>
+                  <input type="text" id="regex-flags" placeholder="gi" style="max-width: 120px;" />
+                </div>
+              </div>
+              <div class="field-group">
+                <label class="field-label" for="regex-test-str">Test String</label>
+                <textarea id="regex-test-str" rows="5" placeholder="The string to test against…"></textarea>
+              </div>
+              <div id="regex-result-area"></div>
+            </div>
+          </div>
+
+          <!-- Timestamp tab -->
+          <div class="tab-pane" id="tab-timestamp" role="tabpanel" aria-labelledby="tab-btn-timestamp" hidden>
+            <div class="flex flex-col gap-3" style="max-width: 560px;">
+              <div class="field-group">
+                <label class="field-label" for="ts-input">Unix Timestamp</label>
+                <div class="flex gap-2">
+                  <input type="text" id="ts-input" placeholder="e.g. 1720000000" />
+                  <button class="btn btn-primary btn-sm shrink-0" id="ts-now-btn">Now</button>
+                  <button class="btn btn-ghost btn-sm shrink-0" id="ts-convert-btn">Convert</button>
+                </div>
+              </div>
+              <div id="ts-result-area"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ╔══════════════════════════╗ -->
+        <!-- ║   STUDY PANEL           ║ -->
+        <!-- ╚══════════════════════════╝ -->
+        <section class="panel" id="panel-study" aria-label="Study Tools">
+          <div class="panel-header">
+            <h1>Study Tools</h1>
+            <p>Flashcards, Pomodoro focus, and Markdown notes that stay on this device.</p>
+          </div>
+          <div class="study-grid">
             <div class="card">
               <div class="card-body">
-                <div class="field-label">Solution</div>
-                <div id="solver-result-area">
-                  <div style="color: var(--text-muted); font-size: 13px; padding: 20px 0;">
-                    Select solver options and click Solve to see results.
-                  </div>
+                <h2 class="card-title">Flashcards</h2>
+                <div class="field-group"><label class="field-label" for="flash-front">Front</label><input
+                    id="flash-front" type="text" placeholder="Question or term" /></div>
+                <div class="field-group"><label class="field-label" for="flash-back">Back</label><textarea
+                    id="flash-back" rows="3" placeholder="Answer or explanation"></textarea></div>
+                <button class="btn btn-primary" id="flash-add-btn">Add card</button>
+                <div id="flashcard-stage" class="study-stage empty-state">No cards yet. Add one to start reviewing.
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- ╔══════════════════════════╗ -->
-      <!-- ║  KNOWLEDGE BASE PANEL    ║ -->
-      <!-- ╚══════════════════════════╝ -->
-      <section class="panel" id="panel-knowledge_base" aria-label="Knowledge Base">
-        <div class="panel-header">
-          <h1>Offline Chemistry Knowledge Base</h1>
-          <p>Search periodic table, compounds, polyatomic ions, and chemical reaction types offline.</p>
-        </div>
-
-        <div class="kb-container">
-          <div class="kb-search-bar">
-            <input type="text" id="kb-query-input" placeholder="Search by name, symbol, formula, pattern..." autocomplete="off">
-            <select id="kb-category-select" style="background:var(--bg-hover); color:var(--text-primary); border:none; border-radius:var(--radius-sm); padding:4px 10px;">
-              <option value="">All Categories</option>
-              <option value="elements">Elements</option>
-              <option value="compounds">Compounds</option>
-              <option value="polyatomic_ions">Polyatomic Ions</option>
-              <option value="reaction_types">Reaction Types</option>
-            </select>
-            <button class="btn btn-primary" id="kb-search-btn">Search</button>
-          </div>
-
-          <div id="kb-suggestions"></div>
-
-          <div class="kb-grid" id="kb-results-grid">
-            <div style="color: var(--text-muted); padding: 40px; text-align: center; grid-column: 1/-1;">
-              Enter a search query to search offline reference database.
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- ╔══════════════════════════╗ -->
-      <!-- ║   MATH PANEL            ║ -->
-      <!-- ╚══════════════════════════╝ -->
-      <section class="panel" id="panel-math" aria-label="Math Solver">
-        <div class="panel-header">
-          <h1>Math Solver</h1>
-          <p>Deterministic expression evaluation. No AI arithmetic — exact Python computation.</p>
-        </div>
-
-        <div class="card" style="max-width: 680px;">
-          <div class="card-body">
-            <div class="field-group">
-              <label class="field-label" for="math-expression">Expression</label>
-              <div class="math-input-row">
-                <input type="text" id="math-expression" placeholder="e.g. 2 * (3 + 4), 100 / 4.5" autocomplete="off" spellcheck="false" />
-                <button class="btn btn-primary shrink-0" id="math-solve-btn">Solve</button>
+            <div class="card">
+              <div class="card-body">
+                <h2 class="card-title">Pomodoro</h2>
+                <div class="timer-face" id="timer-face">25:00</div>
+                <div class="flex gap-2"><button class="btn btn-primary" id="timer-start-btn">Start</button><button
+                    class="btn btn-ghost" id="timer-reset-btn">Reset</button></div>
+                <p class="text-muted mt-3">25 minutes focus · 5 minutes break.</p>
               </div>
             </div>
-
-            <p id="math-error" class="text-muted" style="color: var(--accent-red); display:none; margin-bottom: 8px;"></p>
-
-            <div id="math-result-area"></div>
-          </div>
-        </div>
-
-        <div class="mt-4" style="max-width: 680px;">
-          <div class="field-label" style="margin-bottom: 10px;">Examples</div>
-          <div class="flex gap-2" style="flex-wrap: wrap;">
-            <div class="suggestion-chip" data-expr="2 * (3 + 4)">2 × (3 + 4)</div>
-            <div class="suggestion-chip" data-expr="100 / 4.5">100 ÷ 4.5</div>
-            <div class="suggestion-chip" data-expr="(18.02 * 2) + 32">18.02×2 + 32</div>
-            <div class="suggestion-chip" data-expr="6.02e23 * 2">6.02×10²³ × 2</div>
-          </div>
-        </div>
-      </section>
-
-      <!-- ╔══════════════════════════╗ -->
-      <!-- ║   UTILITIES PANEL       ║ -->
-      <!-- ╚══════════════════════════╝ -->
-      <section class="panel" id="panel-utilities" aria-label="Utility Tools">
-        <div class="panel-header">
-          <h1>Utilities</h1>
-          <p>Local client-side tools. No API calls — everything runs in your browser.</p>
-        </div>
-
-        <!-- Tabs -->
-        <div class="tabs" id="utils-tabs" role="tablist" aria-label="Utility tools">
-          <button class="tab-btn active" data-tab="json" role="tab" aria-selected="true" aria-controls="tab-json" id="tab-btn-json">JSON</button>
-          <button class="tab-btn" data-tab="base64" role="tab" aria-selected="false" aria-controls="tab-base64" id="tab-btn-base64">Base64</button>
-          <button class="tab-btn" data-tab="regex" role="tab" aria-selected="false" aria-controls="tab-regex" id="tab-btn-regex">Regex</button>
-          <button class="tab-btn" data-tab="timestamp" role="tab" aria-selected="false" aria-controls="tab-timestamp" id="tab-btn-timestamp">Timestamp</button>
-        </div>
-
-        <!-- JSON tab -->
-        <div class="tab-pane active" id="tab-json" role="tabpanel" aria-labelledby="tab-btn-json">
-          <div class="utils-split">
-            <div class="field-group flex flex-col gap-2">
-              <label class="field-label" for="json-input">Input JSON</label>
-              <textarea id="json-input" rows="12" placeholder='{"key": "value"}'></textarea>
-              <div class="flex gap-2">
-                <button class="btn btn-primary btn-sm" id="json-format-btn">Format</button>
-                <button class="btn btn-ghost btn-sm" id="json-minify-btn">Minify</button>
-                <button class="btn btn-ghost btn-sm" id="json-copy-btn">Copy</button>
+            <div class="card notes-card">
+              <div class="card-body">
+                <h2 class="card-title">Markdown Notes</h2>
+                <textarea id="notes-input" rows="10" placeholder="# Today I learned…"></textarea>
+                <div class="flex gap-2 mt-2"><button class="btn btn-primary btn-sm" id="notes-save-btn">Save
+                    locally</button><button class="btn btn-ghost btn-sm" id="notes-clear-btn">Clear</button></div>
+                <div class="notes-preview" id="notes-preview" aria-live="polite"></div>
               </div>
             </div>
-            <div class="field-group flex flex-col gap-2">
-              <label class="field-label">Output</label>
-              <pre id="json-output" style="flex:1; min-height: 200px; white-space: pre-wrap; word-break: break-all;"></pre>
-              <p id="json-error" style="color: var(--accent-red); font-size: 12px; display:none;"></p>
+          </div>
+        </section>
+
+        <section class="panel" id="panel-documents" aria-label="Docs">
+          <div class="panel-header">
+            <h1>Docs</h1>
+            <p>Paste local text and use AI to summarize or generate study questions.</p>
+          </div>
+          <div class="card">
+            <div class="card-body">
+              <div class="field-group"><label class="field-label" for="doc-input">Document text</label><textarea
+                  id="doc-input" rows="12" placeholder="Paste PDF text, notes, or article content here…"></textarea>
+              </div>
+              <div class="flex gap-2"><button class="btn btn-primary" id="doc-summary-btn">Summarize</button><button
+                  class="btn btn-ghost" id="doc-questions-btn">Make study questions</button></div>
+              <div id="doc-output" class="result-card markdown-output empty-state">Results appear here after you add
+                text.</div>
             </div>
           </div>
-        </div>
+        </section>
 
-        <!-- Base64 tab -->
-        <div class="tab-pane" id="tab-base64" role="tabpanel" aria-labelledby="tab-btn-base64" hidden>
-          <div class="utils-split">
-            <div class="field-group flex flex-col gap-2">
-              <label class="field-label" for="b64-input">Text / Base64</label>
-              <textarea id="b64-input" rows="8" placeholder="Enter text to encode, or Base64 to decode…"></textarea>
-              <div class="flex gap-2">
-                <button class="btn btn-primary btn-sm" id="b64-encode-btn">Encode →</button>
-                <button class="btn btn-ghost btn-sm" id="b64-decode-btn">← Decode</button>
-              </div>
-            </div>
-            <div class="field-group flex flex-col gap-2">
-              <label class="field-label">Output</label>
-              <pre id="b64-output" style="min-height: 180px; white-space: pre-wrap; word-break: break-all;"></pre>
-              <p id="b64-error" style="color: var(--accent-red); font-size: 12px; display:none;"></p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Regex tab -->
-        <div class="tab-pane" id="tab-regex" role="tabpanel" aria-labelledby="tab-btn-regex" hidden>
-          <div class="flex flex-col gap-3">
-            <div class="utils-split">
-              <div class="field-group">
-                <label class="field-label" for="regex-pattern">Pattern</label>
-                <input type="text" id="regex-pattern" placeholder="e.g. \d+" />
-              </div>
-              <div class="field-group">
-                <label class="field-label" for="regex-flags">Flags</label>
-                <input type="text" id="regex-flags" placeholder="gi" style="max-width: 120px;" />
-              </div>
-            </div>
-            <div class="field-group">
-              <label class="field-label" for="regex-test-str">Test String</label>
-              <textarea id="regex-test-str" rows="5" placeholder="The string to test against…"></textarea>
-            </div>
-            <div id="regex-result-area"></div>
-          </div>
-        </div>
-
-        <!-- Timestamp tab -->
-        <div class="tab-pane" id="tab-timestamp" role="tabpanel" aria-labelledby="tab-btn-timestamp" hidden>
-          <div class="flex flex-col gap-3" style="max-width: 560px;">
-            <div class="field-group">
-              <label class="field-label" for="ts-input">Unix Timestamp</label>
-              <div class="flex gap-2">
-                <input type="text" id="ts-input" placeholder="e.g. 1720000000" />
-                <button class="btn btn-primary btn-sm shrink-0" id="ts-now-btn">Now</button>
-                <button class="btn btn-ghost btn-sm shrink-0" id="ts-convert-btn">Convert</button>
-              </div>
-            </div>
-            <div id="ts-result-area"></div>
-          </div>
-        </div>
-      </section>
-
-      <!-- ╔══════════════════════════╗ -->
-      <!-- ║   STUDY PANEL           ║ -->
-      <!-- ╚══════════════════════════╝ -->
-      <section class="panel" id="panel-study" aria-label="Study Tools">
-        <div class="panel-header">
-          <h1>Study Tools</h1>
-          <p>Flashcards, Pomodoro focus, and Markdown notes that stay on this device.</p>
-        </div>
-        <div class="study-grid">
-          <div class="card"><div class="card-body">
-            <h2 class="card-title">Flashcards</h2>
-            <div class="field-group"><label class="field-label" for="flash-front">Front</label><input id="flash-front" type="text" placeholder="Question or term" /></div>
-            <div class="field-group"><label class="field-label" for="flash-back">Back</label><textarea id="flash-back" rows="3" placeholder="Answer or explanation"></textarea></div>
-            <button class="btn btn-primary" id="flash-add-btn">Add card</button>
-            <div id="flashcard-stage" class="study-stage empty-state">No cards yet. Add one to start reviewing.</div>
-          </div></div>
-          <div class="card"><div class="card-body">
-            <h2 class="card-title">Pomodoro</h2>
-            <div class="timer-face" id="timer-face">25:00</div>
-            <div class="flex gap-2"><button class="btn btn-primary" id="timer-start-btn">Start</button><button class="btn btn-ghost" id="timer-reset-btn">Reset</button></div>
-            <p class="text-muted mt-3">25 minutes focus · 5 minutes break.</p>
-          </div></div>
-          <div class="card notes-card"><div class="card-body">
-            <h2 class="card-title">Markdown Notes</h2>
-            <textarea id="notes-input" rows="10" placeholder="# Today I learned…"></textarea>
-            <div class="flex gap-2 mt-2"><button class="btn btn-primary btn-sm" id="notes-save-btn">Save locally</button><button class="btn btn-ghost btn-sm" id="notes-clear-btn">Clear</button></div>
-            <div class="notes-preview" id="notes-preview" aria-live="polite"></div>
-          </div></div>
-        </div>
-      </section>
-
-      <section class="panel" id="panel-documents" aria-label="Docs">
-        <div class="panel-header">
-          <h1>Docs</h1>
-          <p>Paste local text and use AI to summarize or generate study questions.</p>
-        </div>
-        <div class="card"><div class="card-body">
-          <div class="field-group"><label class="field-label" for="doc-input">Document text</label><textarea id="doc-input" rows="12" placeholder="Paste PDF text, notes, or article content here…"></textarea></div>
-          <div class="flex gap-2"><button class="btn btn-primary" id="doc-summary-btn">Summarize</button><button class="btn btn-ghost" id="doc-questions-btn">Make study questions</button></div>
-          <div id="doc-output" class="result-card markdown-output empty-state">Results appear here after you add text.</div>
-        </div></div>
-      </section>
-
-    </div><!-- /panels -->
-  </div><!-- /main -->
-</div><!-- /app -->
+      </div><!-- /panels -->
+    </div><!-- /main -->
+  </div><!-- /app -->
 </body>
+
 </html>

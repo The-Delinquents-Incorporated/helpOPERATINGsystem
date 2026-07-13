@@ -1,6 +1,16 @@
 import json
 import os
+import re
 from typing import Dict, List, Any, Optional
+
+# Strips LaTeX-style formatting characters (e.g. "H_2O", "SO_4^{2-}")
+# so plain queries like "H2O" or "SO4" still match KB entries.
+_LATEX_MARKUP = re.compile(r"[_^{}]")
+
+
+def _plain(text: Any) -> str:
+    return _LATEX_MARKUP.sub("", str(text or "")).lower()
+
 
 class KBSearch:
     def __init__(self):
@@ -22,8 +32,8 @@ class KBSearch:
     def search(self, query: str, category: Optional[str] = None) -> List[Dict[str, Any]]:
         if not query:
             return []
-        
-        q = query.lower().strip()
+
+        q = _plain(query.strip())
         results = []
 
         target_cats = [category] if category and category in self.categories else self.categories
@@ -32,7 +42,8 @@ class KBSearch:
             items = self.data.get(cat, [])
             for item in items:
                 matched = False
-                # Match based on category fields
+                # Match based on category fields. Formulas are stored with LaTeX
+                # markup, so compare against their plain-text form.
                 if cat == "elements":
                     matched = (
                         q in item.get("name", "").lower() or
@@ -42,20 +53,20 @@ class KBSearch:
                 elif cat == "compounds":
                     matched = (
                         q in item.get("name", "").lower() or
-                        q in item.get("formula", "").lower() or
+                        q in _plain(item.get("formula", "")) or
                         q in item.get("properties", "").lower()
                     )
                 elif cat == "polyatomic_ions":
                     matched = (
                         q in item.get("name", "").lower() or
-                        q in item.get("formula", "").lower() or
+                        q in _plain(item.get("formula", "")) or
                         q == str(item.get("charge", ""))
                     )
                 elif cat == "reaction_types":
                     matched = (
                         q in item.get("type", "").lower() or
-                        q in item.get("pattern", "").lower() or
-                        q in item.get("example", "").lower()
+                        q in _plain(item.get("pattern", "")) or
+                        q in _plain(item.get("example", ""))
                     )
 
                 if matched:
@@ -67,19 +78,19 @@ class KBSearch:
         return results
 
     def suggest_corrections(self, typo: str) -> List[str]:
-        # Simple fuzzy matching using Levenshtein distance or simple substring/char overlap
+        # Simple fuzzy matching using substring/char overlap on plain-text forms
         if not typo:
             return []
-        typo_l = typo.lower()
+        typo_l = _plain(typo)
         candidates = []
-        
+
         # Gather all names and formulas
         for cat, items in self.data.items():
             for item in items:
                 names = [item.get("name", ""), item.get("symbol", ""), item.get("formula", ""), item.get("type", "")]
                 for name in names:
                     if name:
-                        nl = name.lower()
+                        nl = _plain(name)
                         # standard check: prefix or substring
                         if typo_l in nl or nl in typo_l:
                             candidates.append(name)
