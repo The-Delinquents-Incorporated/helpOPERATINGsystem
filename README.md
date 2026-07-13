@@ -10,135 +10,34 @@
 
 ---
 
-# 📦 Prerequisites
-
-| Requirement | Version |
-|-------------|----------|
-| 🐍 **Python** | **3.9+** |
-| 🤖 **Ollama** | **Latest** |
-| 🧠 **Model** | **llama3.2:3b (REQUIRED)** |
-
-> **HelpOS is fully offline.**
->
-> You **must** have **Ollama** installed and the **llama3.2:3b** model downloaded before launching the application.
-
----
-
-# 🧰 Required Software
-
-## 🐍 PYTHON
-
-```text
-┌──────────────────────────────┐
-│  PYTHON                      │
-│  Version: 3.9+               │
-│  Status: REQUIRED            │
-└──────────────────────────────┘
-```
-
----
-
-## 🤖 OLLAMA
-
-```text
-┌──────────────────────────────┐
-│  OLLAMA                      │
-│  Version: Latest             │
-│  Status: REQUIRED            │
-└──────────────────────────────┘
-```
-
-Download:
-
-https://ollama.com/download
-
----
-
-## 🧠 MODEL
-
-```text
-┌──────────────────────────────┐
-│  MODEL                       │
-│  llama3.2:3b                 │
-│  Status: REQUIRED            │
-└──────────────────────────────┘
-```
-
-Install the model:
-
-```bash
-ollama pull llama3.2:3b
-```
-
----
-
 # 🚀 Quick Start
 
-```bash
-# Clone / open the repository
-cd "HelpOS Rev2"
-
-# Make launcher executable (first run only)
-chmod +x start.sh
-
-# Launch HelpOS
-./start.sh
-```
-
-Open:
-
-```
-http://localhost:8000
-```
+Ready to launch HelpOS? See **[Getting Started →](howtostart.md)** for complete installation and startup instructions.
 
 ---
 
-# ⚙️ First-Time Setup
+# 📋 What is HelpOS?
 
-## Install Ollama (macOS)
+HelpOS is a fully offline, privacy-first AI utility engine built on **local LLMs** via Ollama and a modern FastAPI backend. It's designed for:
 
-```bash
-brew install ollama
-```
-
-Start the Ollama daemon:
-
-```bash
-ollama serve
-```
-
-Download the required model:
-
-```bash
-ollama pull llama3.2:3b
-```
+- 🧪 Scientific computation
+- 📚 Tutoring & learning
+- 💬 AI-powered chat
+- 🧮 Mathematical utilities
+- 🔬 Chemistry database (118 elements)
 
 ---
 
-# 🔧 Manual Startup
+# 💡 Key Features
 
-If you prefer not to use the launcher:
-
-```bash
-python3 -m venv .venv
-
-source .venv/bin/activate
-
-pip install -r backend/requirements.txt
-
-uvicorn backend.app.main:app \
-    --host 127.0.0.1 \
-    --port 8000 \
-    --reload
-```
-
----
-
-# 🧪 Run Tests
-
-```bash
-.venv/bin/pytest
-```
+- 🔒 **Fully Offline** — No cloud dependency
+- 🧠 **Local LLM** — Ollama + llama3.2:3b
+- ⚡ **FastAPI Backend** — Modern, async Python
+- 🧪 **Scientific Utilities** — Computation & analysis
+- 📚 **Chemistry Database** — All 118 elements
+- 💬 **AI Chat** — Instant answers, offline
+- 🧮 **Mathematical Tools** — Symbolic & numerical
+- 🖥️ **Local-First Architecture** — Your data stays yours
 
 ---
 
@@ -161,31 +60,9 @@ HelpOS Rev2
 │
 ├── tests/
 ├── start.sh
-└── plan.md
+├── plan.md
+└── howtostart.md
 ```
-
----
-
-# ⚙️ Configuration
-
-Default configuration:
-
-```env
-OLLAMA_HOST=http://localhost:11434
-OLLAMA_MODEL=llama3.2:3b
-OLLAMA_REQUIRE_LOCAL_MODEL=true
-ALLOWED_ORIGINS=["*"]
-```
-
-A root `.env` is included.
-
-Optionally create:
-
-```
-backend/.env
-```
-
-to override defaults.
 
 ---
 
@@ -202,43 +79,36 @@ to override defaults.
 
 ---
 
-# 🚀 Release
+# ⚙️ Configuration
+
+Default configuration:
+
+```env
+OLLAMA_HOST=http://localhost:11434
+OLLAMA_MODEL=llama3.2:3b
+OLLAMA_REQUIRE_LOCAL_MODEL=true
+ALLOWED_ORIGINS=["*"]
+```
+
+A root `.env` is included. Optionally create `backend/.env` to override defaults.
+
+---
+
+# 🚀 Release Notes
+
+## HelpOS 0.4 — Expansion
+
+**Expansion** continues enhancing the local AI experience with new utilities and refined performance.
 
 ## HelpOS 0.3 — Catalyst
 
-**Catalyst** focuses on polishing the local experience.
-
-### Highlights
+**Catalyst** focused on polishing the local experience:
 
 - Improved UI responsiveness
 - Better accessibility
 - Release metadata in API health endpoint
 - Refined navigation
 - Updated frontend styling
-
-### Migration
-
-```bash
-# Refresh the model
-ollama pull llama3.2:3b
-
-# Restart FastAPI
-
-# Hard refresh your browser (Ctrl+Shift+R)
-```
-
----
-
-# 💡 Features
-
-- 🔒 Fully Offline
-- 🧠 Local LLM via Ollama
-- ⚡ FastAPI Backend
-- 🧪 Scientific Utilities
-- 📚 Chemistry Database
-- 💬 AI Chat
-- 🧮 Mathematical Computation
-- 🖥️ Local-First Architecture
 
 ---
 
