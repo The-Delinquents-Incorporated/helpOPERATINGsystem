@@ -1,0 +1,47 @@
+[
+  {
+    "type": "Synthesis (Combination)",
+    "pattern": "A + B → AB",
+    "example": "2H2 + O2 → 2H2O",
+    "tips": [
+      "Combine simple reactants into a single, more complex product.",
+      "Check charge balance when combining metal and nonmetal."
+    ]
+  },
+  {
+    "type": "Decomposition",
+    "pattern": "AB → A + B",
+    "example": "2H2O → 2H2 + O2",
+    "tips": [
+      "A single reactant breaks down into multiple products.",
+      "Often requires energy input (heat, electricity)."
+    ]
+  },
+  {
+    "type": "Single Replacement (Displacement)",
+    "pattern": "A + BC → AC + B",
+    "example": "Zn + 2HCl → ZnCl2 + H2",
+    "tips": [
+      "An element reacts with a compound, replacing one element.",
+      "Use the activity series to check if the reaction will actually occur."
+    ]
+  },
+  {
+    "type": "Double Replacement (Metathesis)",
+    "pattern": "AB + CD → AD + CB",
+    "example": "NaCl + AgNO3 → NaNO3 + AgCl",
+    "tips": [
+      "Two compounds exchange ions to form two new compounds.",
+      "Usually forms a precipitate, gas, or weak electrolyte (like water)."
+    ]
+  },
+  {
+    "type": "Combustion",
+    "pattern": "Fuel + O2 → CO2 + H2O",
+    "example": "CH4 + 2O2 → CO2 + 2H2O",
+    "tips": [
+      "A hydrocarbon reacts with oxygen gas.",
+      "Products are always carbon dioxide and water vapor (for complete combustion)."
+    ]
+  }
+]

@@ -8,16 +8,18 @@
 
   <!-- Design system -->
   <link rel="stylesheet" href="/css/app.css" />
+  <link rel="stylesheet" href="/css/chemistry_solvers.css" />
 
 
-  <!-- App modules (v=0.3-rev1.2 cache bust) -->
-  <script src="/js/markdown.js?v=0.3-rev1.2" defer></script>
-  <script src="/js/docs.js?v=0.3-rev1.2" defer></script>
-  <script src="/js/study.js?v=0.3-rev1.2" defer></script>
-  <script src="/js/utilities.js?v=0.3-rev1.2" defer></script>
-  <script src="/js/chemistry.js?v=0.3-rev1.2" defer></script>
-  <script src="/js/chat.js?v=0.3-rev1.2" defer></script>
-  <script src="/js/app.js?v=0.3-rev1.2" defer></script>
+  <!-- App modules (v=0.4-rev1.0 cache bust) -->
+  <script src="/js/markdown.js?v=0.4-rev1.0" defer></script>
+  <script src="/js/docs.js?v=0.4-rev1.0" defer></script>
+  <script src="/js/study.js?v=0.4-rev1.0" defer></script>
+  <script src="/js/utilities.js?v=0.4-rev1.0" defer></script>
+  <script src="/js/chemistry.js?v=0.4-rev1.0" defer></script>
+  <script src="/js/chemistry_solvers.js?v=0.4-rev1.0" defer></script>
+  <script src="/js/chat.js?v=0.4-rev1.0" defer></script>
+  <script src="/js/app.js?v=0.4-rev1.0" defer></script>
 </head>
 <body>
 <div id="app">
@@ -29,7 +31,7 @@
       <div>
         <div class="sidebar-title">HelpOS</div>
         <div class="sidebar-subtitle">Local AI Engine</div>
-        <div class="version-badge" aria-label="Current release 0.3 Catalyst">0.3: Catalyst</div>
+        <div class="version-badge" aria-label="Current release 0.4 Expansion">0.4: Expansion</div>
       </div>
     </div>
 
@@ -56,6 +58,20 @@
             d="M9 3v7.382a1 1 0 01-.162.543L5.28 16.16A3 3 0 007.83 21h8.34a3 3 0 002.55-4.84l-3.558-5.235A1 1 0 0115 10.382V3M9 3h6M9 3a1 1 0 000 2h6a1 1 0 000-2"/>
         </svg>
         Chemistry
+      </div>
+
+      <div class="nav-item" data-panel="solvers" id="nav-solvers" role="button" tabindex="0" aria-label="AI Solvers">
+        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0012 18.75c-.307 0-.614-.086-.88-.26l-.547-.548z" />
+        </svg>
+        AI Solvers
+      </div>
+
+      <div class="nav-item" data-panel="knowledge_base" id="nav-knowledge_base" role="button" tabindex="0" aria-label="Knowledge Base">
+        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+        </svg>
+        Knowledge Base
       </div>
 
       <div class="nav-item" data-panel="math" id="nav-math" role="button" tabindex="0" aria-label="Math Solver">
@@ -109,7 +125,7 @@
     <!-- Top bar -->
     <header id="topbar">
       <span class="topbar-title" id="topbar-title">Chat</span>
-      <span class="topbar-version" aria-label="HelpOS version 0.3 Catalyst">0.3: Catalyst</span>
+      <span class="topbar-version" aria-label="HelpOS version 0.4 Expansion">0.4: Expansion</span>
       <span class="topbar-subtitle" id="topbar-subtitle">Dual-mode AI — Reasoning &amp; Deterministic</span>
     </header>
 
@@ -218,6 +234,171 @@
                   Enter a formula and click Calculate.
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ╔══════════════════════════╗ -->
+      <!-- ║   AI SOLVERS PANEL       ║ -->
+      <!-- ╚══════════════════════════╝ -->
+      <section class="panel" id="panel-solvers" aria-label="AI Solvers">
+        <div class="panel-header">
+          <h1>AI Chemistry Solvers</h1>
+          <p>AI-assisted calculations and step-by-step tutoring explanations powered by Ollama.</p>
+        </div>
+
+        <div class="solver-container">
+          <div class="solver-split">
+            <!-- Left: Config & Inputs -->
+            <div class="card">
+              <div class="card-body chem-input-panel">
+                
+                <div class="field-group">
+                  <label class="field-label" for="solver-calc-type">Solver Type</label>
+                  <select id="solver-calc-type">
+                    <option value="stoichiometry">Stoichiometry Solver</option>
+                    <option value="empirical_molecular">Empirical &amp; Molecular Formula</option>
+                    <option value="percent_composition">Percent Composition</option>
+                    <option value="percent_error">Percent Error</option>
+                  </select>
+                </div>
+
+                <!-- Stoichiometry Fields -->
+                <div id="fields-stoichiometry" class="solver-fields">
+                  <div class="field-group">
+                    <label class="field-label" for="stoich-equation">Chemical Equation</label>
+                    <input type="text" id="stoich-equation" placeholder="e.g. 2H2 + O2 -> 2H2O" />
+                  </div>
+                  <div class="form-group-row">
+                    <div class="field-group">
+                      <label class="field-label" for="stoich-given-sub">Given Substance</label>
+                      <input type="text" id="stoich-given-sub" placeholder="e.g. H2" />
+                    </div>
+                    <div class="field-group">
+                      <label class="field-label" for="stoich-given-val">Given Value</label>
+                      <input type="number" id="stoich-given-val" placeholder="e.g. 10" step="any" />
+                    </div>
+                  </div>
+                  <div class="field-group">
+                    <label class="field-label" for="stoich-given-unit">Given Unit</label>
+                    <select id="stoich-given-unit">
+                      <option value="grams">Grams (g)</option>
+                      <option value="moles">Moles (mol)</option>
+                      <option value="liters">Liters at STP (L)</option>
+                      <option value="particles">Particles</option>
+                    </select>
+                  </div>
+                  <div class="form-group-row">
+                    <div class="field-group">
+                      <label class="field-label" for="stoich-target-sub">Target Substance</label>
+                      <input type="text" id="stoich-target-sub" placeholder="e.g. H2O" />
+                    </div>
+                    <div class="field-group">
+                      <label class="field-label" for="stoich-target-unit">Target Unit</label>
+                      <select id="stoich-target-unit">
+                        <option value="grams">Grams (g)</option>
+                        <option value="moles">Moles (mol)</option>
+                        <option value="liters">Liters at STP (L)</option>
+                        <option value="particles">Particles</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Empirical/Molecular Fields -->
+                <div id="fields-empirical_molecular" class="solver-fields" style="display: none;">
+                  <div class="field-group">
+                    <label class="field-label" for="emp-composition">Composition Data</label>
+                    <textarea id="emp-composition" rows="3" placeholder="e.g. C: 40, H: 6.7, O: 53.3"></textarea>
+                  </div>
+                  <div class="field-group">
+                    <label class="field-label" for="emp-molar-mass">Molar Mass (g/mol, optional)</label>
+                    <input type="number" id="emp-molar-mass" placeholder="e.g. 180" step="any" />
+                  </div>
+                </div>
+
+                <!-- Percent Composition Fields -->
+                <div id="fields-percent_composition" class="solver-fields" style="display: none;">
+                  <div class="field-group">
+                    <label class="field-label" for="pct-formula">Chemical Formula</label>
+                    <input type="text" id="pct-formula" placeholder="e.g. H2SO4" />
+                  </div>
+                </div>
+
+                <!-- Percent Error Fields -->
+                <div id="fields-percent_error" class="solver-fields" style="display: none;">
+                  <div class="form-group-row">
+                    <div class="field-group">
+                      <label class="field-label" for="err-theoretical">Theoretical Value</label>
+                      <input type="number" id="err-theoretical" placeholder="e.g. 18.02" step="any" />
+                    </div>
+                    <div class="field-group">
+                      <label class="field-label" for="err-experimental">Experimental Value</label>
+                      <input type="number" id="err-experimental" placeholder="e.g. 17.8" step="any" />
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Show Work Toggle -->
+                <div class="toggle-container">
+                  <div>
+                    <div style="font-weight:600; font-size:13px; color:var(--text-primary);">Show Work</div>
+                    <div style="font-size:11px; color:var(--text-muted);">Explain step-by-step using Ollama</div>
+                  </div>
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="solver-show-work" checked>
+                    <span class="toggle-slider"></span>
+                  </label>
+                </div>
+
+                <button class="btn btn-primary w-full" id="solver-calculate-btn">Solve</button>
+                <p id="solver-error" class="text-muted mt-2" style="color: var(--accent-red); display:none;"></p>
+              </div>
+            </div>
+
+            <!-- Right: Results -->
+            <div class="card">
+              <div class="card-body">
+                <div class="field-label">Solution</div>
+                <div id="solver-result-area">
+                  <div style="color: var(--text-muted); font-size: 13px; padding: 20px 0;">
+                    Select solver options and click Solve to see results.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ╔══════════════════════════╗ -->
+      <!-- ║  KNOWLEDGE BASE PANEL    ║ -->
+      <!-- ╚══════════════════════════╝ -->
+      <section class="panel" id="panel-knowledge_base" aria-label="Knowledge Base">
+        <div class="panel-header">
+          <h1>Offline Chemistry Knowledge Base</h1>
+          <p>Search periodic table, compounds, polyatomic ions, and chemical reaction types offline.</p>
+        </div>
+
+        <div class="kb-container">
+          <div class="kb-search-bar">
+            <input type="text" id="kb-query-input" placeholder="Search by name, symbol, formula, pattern..." autocomplete="off">
+            <select id="kb-category-select" style="background:var(--bg-hover); color:var(--text-primary); border:none; border-radius:var(--radius-sm); padding:4px 10px;">
+              <option value="">All Categories</option>
+              <option value="elements">Elements</option>
+              <option value="compounds">Compounds</option>
+              <option value="polyatomic_ions">Polyatomic Ions</option>
+              <option value="reaction_types">Reaction Types</option>
+            </select>
+            <button class="btn btn-primary" id="kb-search-btn">Search</button>
+          </div>
+
+          <div id="kb-suggestions"></div>
+
+          <div class="kb-grid" id="kb-results-grid">
+            <div style="color: var(--text-muted); padding: 40px; text-align: center; grid-column: 1/-1;">
+              Enter a search query to search offline reference database.
             </div>
           </div>
         </div>

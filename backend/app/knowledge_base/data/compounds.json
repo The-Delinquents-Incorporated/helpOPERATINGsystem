@@ -1,0 +1,82 @@
+[
+  {
+    "formula": "NaCl",
+    "name": "Sodium Chloride",
+    "molar_mass": 58.44,
+    "state": "Solid",
+    "solubility": "Highly soluble in water",
+    "properties": "White crystalline solid, table salt"
+  },
+  {
+    "formula": "H2O",
+    "name": "Water",
+    "molar_mass": 18.02,
+    "state": "Liquid",
+    "solubility": "Universal solvent",
+    "properties": "Colorless, odorless liquid, essential for life"
+  },
+  {
+    "formula": "CO2",
+    "name": "Carbon Dioxide",
+    "molar_mass": 44.01,
+    "state": "Gas",
+    "solubility": "Moderately soluble in water",
+    "properties": "Colorless gas, greenhouse gas"
+  },
+  {
+    "formula": "H2SO4",
+    "name": "Sulfuric Acid",
+    "molar_mass": 98.08,
+    "state": "Liquid",
+    "solubility": "Miscible with water",
+    "properties": "Strong mineral acid, highly corrosive"
+  },
+  {
+    "formula": "HCl",
+    "name": "Hydrochloric Acid",
+    "molar_mass": 36.46,
+    "state": "Liquid/Gas",
+    "solubility": "Highly soluble in water",
+    "properties": "Strong acid, main constituent of gastric acid"
+  },
+  {
+    "formula": "NaOH",
+    "name": "Sodium Hydroxide",
+    "molar_mass": 40.00,
+    "state": "Solid",
+    "solubility": "Highly soluble in water",
+    "properties": "Strong base, caustic soda, used in soap making"
+  },
+  {
+    "formula": "CaCO3",
+    "name": "Calcium Carbonate",
+    "molar_mass": 100.09,
+    "state": "Solid",
+    "solubility": "Practically insoluble in water",
+    "properties": "White mineral, found in rocks as chalk, limestone, marble"
+  },
+  {
+    "formula": "NH3",
+    "name": "Ammonia",
+    "molar_mass": 17.03,
+    "state": "Gas",
+    "solubility": "Highly soluble in water",
+    "properties": "Pungent gas, used in fertilizers and cleaners"
+  },
+  {
+    "formula": "C6H12O6",
+    "name": "Glucose",
+    "molar_mass": 180.16,
+    "state": "Solid",
+    "solubility": "Soluble in water",
+    "properties": "Simple sugar, primary energy source for cells"
+  },
+  {
+    "formula": "Kno3",
+    "name": "Potassium Nitrate",
+    "molar_mass": 101.10,
+    "state": "Solid",
+    "solubility": "Soluble in water",
+    "properties": "Saltpeter, used in gunpowder, fertilizers"
+  }
+]

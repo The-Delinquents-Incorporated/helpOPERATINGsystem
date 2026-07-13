@@ -5,12 +5,14 @@
  */
 
 const PANEL_META = {
-  chat:      { title: 'Chat',          subtitle: 'Dual-mode AI — Reasoning & Deterministic' },
-  chemistry: { title: 'Chemistry',     subtitle: 'Exact calculations from the CDE periodic table' },
-  math:      { title: 'Math Solver',   subtitle: 'Deterministic expression evaluation' },
-  utilities: { title: 'Utilities',     subtitle: 'Local client-side tools — no API calls' },
-  study:     { title: 'Study Tools',   subtitle: 'Flashcards, notes & Pomodoro' },
-  documents: { title: 'Docs',          subtitle: 'AI summarization and study questions' },
+  chat:           { title: 'Chat',             subtitle: 'Dual-mode AI — Reasoning & Deterministic' },
+  chemistry:      { title: 'Chemistry',        subtitle: 'Exact calculations from the CDE periodic table' },
+  solvers:        { title: 'AI Solvers',       subtitle: 'AI-assisted chemistry problem solvers with work explanation' },
+  knowledge_base: { title: 'Knowledge Base',   subtitle: 'Searchable offline chemistry database' },
+  math:           { title: 'Math Solver',      subtitle: 'Deterministic expression evaluation' },
+  utilities:      { title: 'Utilities',        subtitle: 'Local client-side tools — no API calls' },
+  study:          { title: 'Study Tools',      subtitle: 'Flashcards, notes & Pomodoro' },
+  documents:      { title: 'Docs',             subtitle: 'AI summarization and study questions' },
 };
 
 // ── Panel Router ──────────────────────────────────────────
@@ -63,8 +65,8 @@ function wireKeyboardShortcuts() {
     const tag = document.activeElement?.tagName;
     if (tag === 'INPUT' || tag === 'TEXTAREA') return;
 
-    // Number keys 1-6 switch panels
-    const panelOrder = ['chat', 'chemistry', 'math', 'study', 'documents', 'utilities'];
+    // Number keys switch panels
+    const panelOrder = ['chat', 'chemistry', 'solvers', 'knowledge_base', 'math', 'study', 'documents', 'utilities'];
     const num = parseInt(e.key, 10);
     if (num >= 1 && num <= panelOrder.length) {
       navigateTo(panelOrder[num - 1]);

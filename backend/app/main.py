@@ -55,7 +55,7 @@ async def health_check():
         "api_version": settings.API_VERSION,
         "release": {
             "version": settings.API_VERSION,
-            "label": "0.3: Catalyst",
+            "label": "0.4: Expansion",
             "codename": settings.RELEASE_CODENAME,
         },
         "ollama": {
