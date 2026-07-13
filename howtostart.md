@@ -18,54 +18,6 @@ Complete guide to installing, configuring, and launching HelpOS.
 
 ---
 
-# 🧰 Required Software
-
-## 🐍 PYTHON
-
-```text
-┌──────────────────────────────┐
-│  PYTHON                      │
-│  Version: 3.9+               │
-│  Status: REQUIRED            │
-└──────────────────────────────┘
-```
-
----
-
-## 🤖 OLLAMA
-
-```text
-┌──────────────────────────────┐
-│  OLLAMA                      │
-│  Version: Latest             │
-│  Status: REQUIRED            │
-└──────────────────────────────┘
-```
-
-Download:
-
-https://ollama.com/download
-
----
-
-## 🧠 MODEL
-
-```text
-┌──────────────────────────────┐
-│  MODEL                       │
-│  llama3.2:3b                 │
-│  Status: REQUIRED            │
-└──────────────────────────────┘
-```
-
-Install the model:
-
-```bash
-ollama pull llama3.2:3b
-```
-
----
-
 # ⚙️ First-Time Setup
 
 ## Install Ollama (macOS)
