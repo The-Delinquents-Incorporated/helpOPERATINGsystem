@@ -1,6 +1,6 @@
 # 🧪 HelpOS
 
-![Release](https://img.shields.io/badge/Release-0.3.0--Catalyst-blueviolet)
+![Release](https://img.shields.io/badge/Release-0.4.0--Expansion-blueviolet)
 ![Python](https://img.shields.io/badge/Python-3.9+-blue)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.100.0%2B-009688)
 ![Ollama](https://img.shields.io/badge/Ollama-llama3.2:3b-orange)
